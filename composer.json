@@ -1,0 +1,29 @@
+{
+    "name": "meteo-concept/hcaptcha-bundle",
+    "description": "A Symfony 4+ bundle to use HCaptcha in forms",
+    "type": "symfony-bundle",
+    "require": {
+        "symfony/http-client": "*",
+        "symfony/form": "*",
+        "symfony/validator": "*",
+        "symfony/config": "*",
+        "symfony/twig-bridge": "*"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Laurent Georget",
+            "email": "laurent.georget@meteo-concept.fr"
+        }
+    ],
+    "autoload" : {
+        "psr-4" : {
+            "MeteoConcept\\HCaptchaBundle\\" : "./"
+        }
+    },
+    "conflict" : {
+        "symfony/symfony" : "<4.0"
+    },
+    "minimum-stability" : "dev",
+    "prefer-stable" : true
+}
