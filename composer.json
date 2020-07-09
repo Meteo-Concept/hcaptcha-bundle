@@ -3,11 +3,11 @@
     "description": "A Symfony 4+ bundle to use HCaptcha in forms",
     "type": "symfony-bundle",
     "require": {
-        "symfony/http-client": "*",
-        "symfony/form": "*",
-        "symfony/validator": "*",
-        "symfony/config": "*",
-        "symfony/twig-bridge": "*"
+        "symfony/http-client": ">=4.3 <5.2",
+        "symfony/form": ">=4.0 <5.2",
+        "symfony/validator": ">=4.0 <5.2",
+        "symfony/config": ">=4.2 <5.2",
+        "symfony/twig-bridge": ">=4.0 <5.2"
     },
     "license": "MIT",
     "authors": [
@@ -20,9 +20,6 @@
         "psr-4" : {
             "MeteoConcept\\HCaptchaBundle\\" : "./"
         }
-    },
-    "conflict" : {
-        "symfony/symfony" : "<4.0"
     },
     "minimum-stability" : "dev",
     "prefer-stable" : true

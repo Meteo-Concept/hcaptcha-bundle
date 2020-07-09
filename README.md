@@ -5,40 +5,45 @@ Basically, this bundle brings into your Symfony website a new Form type, namely
 HCaptchaType, that is used to display and validate a CAPTCHA served by
 https://www.hcaptcha.com.
 
-This bundle is still in development, so you have to install it by hand. When it has
-proper documentation and tests, I'll publish it.
 
-Meanwhile, if you want to alpha-test it:
+Installation
+----------
 
-Step 1
-------
 
-Add the repository to `composer.json`:
+### Applications that use Symfony Flex
 
-```json
-    "repositories": [
-        {
-              "type": "vcs",
-              "url": "https://github.com/Meteo-Concept/hcaptcha-bundle.git"
-        }
-    ]
+Open a command console, enter your project directory and execute:
+
+```console
+$ composer require meteo-concept/hcaptcha-bundle
 ```
 
-and the package in the `require` section:
+### Applications that don't use Symfony Flex
 
-```json
-  "require": {
-      ...
-      "meteo-concept/hcaptcha-bundle": "dev-master"
-  }
+#### Step 1: Download the Bundle
+
+Open a command console, enter your project directory and execute the
+following command to download the latest stable version of this bundle:
+
+```console
+$ composer require meteo-concept/hcaptcha-bundle
 ```
 
-Step 2
-------
+#### Step 2: Enable the Bundle
 
-Run `composer update meteo-concept/hcaptcha-bundle`.
+Then, enable the bundle by adding it to the list of registered bundles
+in the `config/bundles.php` file of your project:
 
-Step 3
+```php
+// config/bundles.php
+
+return [
+    // ...
+    MeteoConcept\HCaptchaBundle\MeteoConceptHCaptchaBundle::class => ['all' => true],
+];
+```
+
+Configuration
 ------
 
 Configure the bundle, for instance in `config/packages/meteo_concept_hcaptcha.yml`:
@@ -64,7 +69,7 @@ HCAPTACHA_SECRET="0x0000000000000000000000000000000000000000"
 The site key and secret are the values hCaptcha gives you at https://dashboard.hcaptcha.com. The global configuration makes all captchas use the same site key by default but it's possible to change it in the definition of each form.
 The values shown here are dummy values usable for integration testing (https://docs.hcaptcha.com/#integrationtest). Put the real values in `.env.local` (at least, the secret, the site key is public).
 
-Step 4
+Usage
 ------
 
 Configure Twig to load the specific template for the hCaptcha widget (or provide your own).
@@ -75,7 +80,7 @@ twig:
     form_themes:
         - '@MeteoConceptHCaptcha/hcaptcha_form.html.twig'
         - ...
-```        
+```
 
 Step 5
 ------
