@@ -69,9 +69,6 @@ HCAPTACHA_SECRET="0x0000000000000000000000000000000000000000"
 The site key and secret are the values hCaptcha gives you at https://dashboard.hcaptcha.com. The global configuration makes all captchas use the same site key by default but it's possible to change it in the definition of each form.
 The values shown here are dummy values usable for integration testing (https://docs.hcaptcha.com/#integrationtest). Put the real values in `.env.local` (at least, the secret, the site key is public).
 
-Usage
-------
-
 Configure Twig to load the specific template for the hCaptcha widget (or provide your own).
 
 ```yaml
@@ -82,7 +79,7 @@ twig:
         - ...
 ```
 
-Step 5
+Usage
 ------
 
 Use the captcha in your forms:
