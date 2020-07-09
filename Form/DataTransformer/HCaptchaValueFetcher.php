@@ -7,10 +7,28 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 use MeteoConcept\HCaptchaBundle\Form\HCaptchaResponse;
 
+/**
+ * @brief A weird data transformer that actually does not act on the
+ * field value but on a specific POST variables in the request
+ */
 class HCaptchaValueFetcher implements DataTransformerInterface
 {
+    /**
+     * @var RequestStack The service needed to get access to the POST
+     * variables
+     */
     private $requestStack;
 
+    /**
+     * @brief Constructs an instance of the HCaptchaValueFetcher from
+     * injected dependencies
+     *
+     * This class does nothing useful when displaying the form, it's
+     * only useful on a POST request, when the form is submitted.
+     *
+     * @param RequestStack $requestStack The Symfony service used to
+     * access the object representing the user's HTTP request.
+     */
     public function __construct(RequestStack $requestStack)
     {
         $this->requestStack = $requestStack;
@@ -18,14 +36,21 @@ class HCaptchaValueFetcher implements DataTransformerInterface
 
     public function transform($value)
     {
-        // There's nothing to prepopulate, CAPTCHAs are not persisted
+        /*
+         * There's nothing to transform, CAPTCHAs are not persisted and it's not
+         * possible to set a value to the hCaptcha widget before the user solves
+         * the CAPTCHA.
+         */
         return null;
     }
 
     public function reverseTransform($value)
     {
-        // Actually, we need to get the data directly from the request since HCaptcha uses POST variable
-        // h-captcha-response instead of a nicely named variable that would let Symfony find it on its own.
+        /*
+         * We need to get the data directly from the request since hCaptcha uses
+         * the POST variable h-captcha-response instead of a nicely named
+         * variable that would let the Symfony Form component find it on its own.
+         */
         $masterRequest = $this->requestStack->getMasterRequest();
         $remoteIp      = $masterRequest->getClientIp();
         $response      = $masterRequest->get("h-captcha-response");
