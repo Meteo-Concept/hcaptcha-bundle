@@ -15,7 +15,7 @@ Step 1
 
 Add the repository to `composer.json`:
 
-```
+```json
     "repositories": [
         {
               "type": "vcs",
@@ -26,7 +26,7 @@ Add the repository to `composer.json`:
 
 and the package in the `require` section:
 
-```
+```json
   "require": {
       ...
       "meteo-concept/hcaptcha-bundle": "dev-master"
@@ -43,7 +43,7 @@ Step 3
 
 Configure the bundle, for instance in `config/packages/meteo_concept_hcaptcha.yml`:
 
-```
+```yaml
 parameters:
     hcaptcha_site_key: '%env(resolve:HCAPTCHA_SITE_KEY)%'
     hcaptcha_secret: '%env(resolve:HCAPTCHA_SECRET)%'
@@ -56,20 +56,33 @@ meteo_concept_h_captcha:
 
 with the corresponding change in `.env`:
 
-```
+```ini
 HCAPTCHA_SITE_KEY="10000000-ffff-ffff-ffff-000000000001"
 HCAPTACHA_SECRET="0x0000000000000000000000000000000000000000"
 ```
 
-The site key and secret are the value hCaptcha gives you at https://dashboard.hcaptcha.com. The global configuration makes all captchas use the same site key by default but it's possible to change it in the definition of each form.
+The site key and secret are the values hCaptcha gives you at https://dashboard.hcaptcha.com. The global configuration makes all captchas use the same site key by default but it's possible to change it in the definition of each form.
 The values shown here are dummy values usable for integration testing (https://docs.hcaptcha.com/#integrationtest). Put the real values in `.env.local` (at least, the secret, the site key is public).
 
 Step 4
 ------
 
+Configure Twig to load the specific template for the hCaptcha widget (or provide your own).
+
+```yaml
+twig:
+    ...
+    form_themes:
+        - '@MeteoConceptHCaptcha/hcaptcha_form.html.twig'
+        - ...
+```        
+
+Step 5
+------
+
 Use the captcha in your forms:
 
-```
+```php
 <?php
 
 namespace App\Form;
@@ -107,4 +120,4 @@ class ContactType extends AbstractType
 }
 ```
 
-By default, the HCaptchaFormType class validates ths input againt constraints `NotBlank` and `IsValidCaptcha` (a new constraint installed with this bundle whose validator makes the CAPTCHA check by calling hCaptcha API). You can override this set of constraints by passing the `constraints` option to the form builder. Also, HCaptchaFormType fields are passed `'mapped' => false` by default since it doesn't make mush sense to persist CAPTCHA values.
+By default, the HCaptchaFormType class validates the field againt constraints `NotBlank` and `IsValidCaptcha` (a new constraint installed with this bundle whose validator makes the CAPTCHA check by calling the hCaptcha API). You can override this set of constraints by passing the `constraints` option to the form builder. Also, HCaptchaFormType fields are passed `'mapped' => false` by default since it doesn't make much sense to persist CAPTCHA values.
