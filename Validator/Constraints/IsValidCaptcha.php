@@ -9,6 +9,6 @@ use Symfony\Component\Validator\Constraint;
  */
 class IsValidCaptcha extends Constraint
 {
-    public $message = 'Le captcha est invalide.';
+    public $message = 'The CAPTCHA is invalid.';
 }
 

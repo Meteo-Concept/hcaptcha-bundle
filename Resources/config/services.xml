@@ -11,8 +11,8 @@
         <service id="meteo_concept_h_captcha.captcha_validator"
             class="MeteoConcept\HCaptchaBundle\Validator\Constraints\IsValidCaptchaValidator"
             public="true">
-            <tag name="validator.constraint_validator">
-            <argument type="service" id="Symfony\Contracts\HttpClient\HttpClientInterface"/>
+            <tag name="validator.constraint_validator"/>
+            <argument type="service" id="http_client"/>
             <argument type="string"></argument>
             <argument type="service" id="logger" on-invalid="null"/>
         </service>
@@ -23,15 +23,26 @@
         </service>
 
         <service id="meteo_concept_h_captcha.hcaptcha_form_type"
-            class="MeteoConcept\HCaptchaBundle\Form\HCaptchaFormType"
+            class="MeteoConcept\HCaptchaBundle\Form\HCaptchaType"
             public="true">
-            <tag name="form.type"></tag>
-            <argument type="service" id="Symfony\Contracts\HttpFoundation\RequestStack"/>
+            <tag name="form.type" alias="hcaptcha"/>
+            <argument type="service" id="meteo_concept_h_captcha.hcaptcha_value_fetcher"></argument>
             <argument type="string"></argument>
         </service>
 
-        <service id="MeteoConcept\HCaptchaBundle\Form\HCaptchaFormType"
+        <service id="MeteoConcept\HCaptchaBundle\Form\HCaptchaType"
             alias="meteo_concept_h_captcha.hcaptcha_form_type"
+            public="false">
+        </service>
+
+        <service id="meteo_concept_h_captcha.hcaptcha_value_fetcher"
+            class="MeteoConcept\HCaptchaBundle\Form\DataTransformer\HCaptchaValueFetcher"
+            public="true">
+            <argument type="service" id="request_stack"/>
+        </service>
+
+        <service id="MeteoConcept\HCaptchaBundle\Form\DataTransformer\HCaptchaValueFetcher"
+            alias="meteo_concept_h_captcha.hcaptcha_value_fetcher"
             public="false">
         </service>
     </services>

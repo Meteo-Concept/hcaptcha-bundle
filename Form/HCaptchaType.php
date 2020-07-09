@@ -1,32 +1,33 @@
 <?php
 
-namespace App\Form;
+namespace MeteoConcept\HCaptchaBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+use MeteoConcept\HCaptchaBundle\Form\DataTransformer\HCaptchaValueFetcher;
 use MeteoConcept\HCaptchaBundle\Validator\Constraints\IsValidCaptcha;
 
-class HCaptchaType extends AbstractType implements DataTransformerInterface
+class HCaptchaType extends AbstractType
 {
-    private $requestStack;
+    private $valueFetcher;
 
     private $hcaptchaSiteKey;
 
-    public function __construct(RequestStack $requestStack, string $hcaptchaSiteKey = null)
+    public function __construct(HCaptchaValueFetcher $hcaptchaValueFetcher, string $hcaptchaSiteKey = null)
     {
-        $this->requestStack = $requestStack;
+        $this->valueFetcher = $hcaptchaValueFetcher;
+        $this->hcaptchaSiteKey = $hcaptchaSiteKey;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addModelTransformer($this);
+        $builder->addModelTransformer($this->valueFetcher);
     }
 
     public function buildView(FormView $view, FormInterface $form, array $options)
@@ -41,6 +42,9 @@ class HCaptchaType extends AbstractType implements DataTransformerInterface
 
     public function getParent()
     {
+        // Take TextareaType as the parent because the hCaptcha widget kind of
+        // takes up the same amount of space in a form (it's a rectangular box...)
+        // so maybe this is a good default for layout?
         return TextareaType::class;
     }
 
@@ -50,30 +54,13 @@ class HCaptchaType extends AbstractType implements DataTransformerInterface
             'empty_data' => null,
             'mapped' => false,
             'constraints' => [
-                new NotBlank(["message" => "The CAPTCHA in required."]),
+                new NotBlank(["message" => "The CAPTCHA is required."]),
                 new IsValidCaptcha(),
             ],
         ]);
         if (null !== $this->hcaptchaSiteKey) {
             $resolver->setDefault('hcaptcha_site_key', $this->hcaptchaSiteKey);
         }
-        $resolver->setRequired('hcaptchaSiteKey');
-    }
-
-    public function transform($value)
-    {
-        // There's nothing to prepopulate, CAPTCHAs are not persisted
-        return null;
-    }
-
-    public function reverseTransform($value)
-    {
-        // Actually, we need to get the data directly from the request since HCaptcha uses POST variable
-        // h-captcha-response instead of a nicely named variable that would let Symfony find it on its own.
-        $masterRequest = $this->requestStack->getMasterRequest();
-        $remoteIp      = $masterRequest->getClientIp();
-        $response      = $masterRequest->get("h-captcha-response");
-
-        return new HCaptchaResponse($response, $remoteIp);
+        $resolver->setRequired('hcaptcha_site_key');
     }
 }
