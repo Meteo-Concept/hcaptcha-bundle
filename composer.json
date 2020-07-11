@@ -1,13 +1,27 @@
 {
     "name": "meteo-concept/hcaptcha-bundle",
-    "description": "A Symfony 4+ bundle to use HCaptcha in forms",
+    "description": "A Symfony bundle to use hCaptcha in forms",
     "type": "symfony-bundle",
     "require": {
-        "symfony/http-client": ">=4.3 <5.2",
-        "symfony/form": ">=4.0 <5.2",
-        "symfony/validator": ">=4.0 <5.2",
-        "symfony/config": ">=4.2 <5.2",
-        "symfony/twig-bridge": ">=4.0 <5.2"
+        "php": "^7.1",
+        "psr/http-client": "*",
+        "psr/http-message": "*",
+        "psr/http-client-implementation": "*",
+        "psr/http-factory-implementation": "*",
+        "symfony/form": "~3.0|~4.0|~5.0",
+        "symfony/validator": "~3.0|~4.0|~5.0",
+        "symfony/config": "~3.0|~4.0|~5.0",
+        "symfony/twig-bridge": "~3.0|~4.0|~5.0"
+    },
+    "require-dev": {
+        "php-http/mock-client": "^1.4",
+        "nyholm/psr7": "^1.3",
+        "symfony/phpunit-bridge": "^5.1",
+        "nyholm/symfony-bundle-test": "^1.6",
+        "matthiasnoback/symfony-dependency-injection-test": "^4.1"
+    },
+    "suggest": {
+        "symfony/http-client": "A Symfony component that implements PSR-18 HTTP client interface"
     },
     "license": "MIT",
     "authors": [

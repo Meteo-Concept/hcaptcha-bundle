@@ -1,0 +1,12 @@
+services:
+    Psr\Http\Client\ClientInterface:
+        class: Http\Mock\Client
+    Psr\Http\Message\RequestFactoryInterface:
+        class: Nyholm\Psr7\Factory\Psr17Factory
+    Psr\Http\Message\StreamFactoryInterface:
+        class: Nyholm\Psr7\Factory\Psr17Factory
+
+meteo_concept_h_captcha:
+    hcaptcha:
+        site_key: 10000000-ffff-ffff-ffff-000000000001
+        secret: 0x0000000000000000000000000000000000000000

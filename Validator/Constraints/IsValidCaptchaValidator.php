@@ -6,10 +6,10 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Psr\Log\LoggerInterface;
 
+use MeteoConcept\HCaptchaBundle\Exception\BadAnswerFromHCaptchaException;
 use MeteoConcept\HCaptchaBundle\Form\HCaptchaResponse;
+use MeteoConcept\HCaptchaBundle\Service\HCaptchaVerifier;
 
 /**
  * @brief Validates a CAPTCHA using the hCaptcha API
@@ -21,42 +21,26 @@ use MeteoConcept\HCaptchaBundle\Form\HCaptchaResponse;
 class IsValidCaptchaValidator extends ConstraintValidator
 {
     /**
-     * @var HttpClientInterface A Symfony HTTP client service usable to make the
-     * API call to hCaptcha.
+     * @var HCaptchaVerifier The service that sends the verification request
+     * to the hCaptcha endpoint.
      */
-    private $client;
-
-    /**
-     * @var string The secret that authenticates the website in the hCaptcha
-     * request
-     */
-    private $hcaptchaSecret;
-
-    /**
-     * @var LoggerInterface|null An *optional* logger service.
-     */
-    private $logger;
-
-    /**
-     * @var string The hCaptcha verification endpoint
-     */
-    const HCAPTCHA_VERIFY_URL = 'https://hcaptcha.com/siteverify';
+    private $verifier;
 
     /**
      * @brief Constructs the validator from injected dependencies
      *
-     * @param HttpClientInterface $client The Symfony HTTP client service
-     * (to make the API call to hCaptcha)
-     * @param string $hcaptchaSecret The secret provided by and sent back to
-     * hCaptcha
-     * @param LoggerInterface|null $logger An optional logger service, if it's
-     * absent, it must be null
+     * @param HCaptchaVerifier $verifier The service that sends the verification
+     * request to the hCaptcha endpoint
      */
-    public function __construct(HttpClientInterface $client, string $hcaptchaSecret, LoggerInterface $logger)
+    public function __construct(HCaptchaVerifier $verifier)
     {
-        $this->client = $client;
-        $this->hcaptchaSecret = $hcaptchaSecret;
-        $this->logger = $logger;
+        $this->verifier = $verifier;
+    }
+
+    private function setAsInvalid(Constraint $constraint)
+    {
+        $this->context->buildViolation($constraint->message)
+             ->addViolation();
     }
 
     public function validate($value, Constraint $constraint)
@@ -93,37 +77,23 @@ class IsValidCaptchaValidator extends ConstraintValidator
         }
 
         // Make the validation request to hCaptcha
-        $response = $this->client->request(
-            'POST',
-            self::HCAPTCHA_VERIFY_URL,
-            [
-                'body' => [
-                    'response' => $value->getResponse(),
-                    'remoteip' => $value->getRemoteIp(),
-                    'secret' => $this->hcaptchaSecret,
-                ],
-            ]
-        );
+        try {
+            $output = "";
+            $verified = $this->verifier->verify($value, $output);
 
-        $statusCode = $response->getStatusCode();
-        $content = $response->toArray();
-
-        /*
-         * The CAPTCHA is considered solved if hCaptcha sends a 'success' answer
-         * (https://docs.hcaptcha.com/#server)
-         * TODO: This is a bit dangerous as no user will be able to submit their
-         * form if hCaptcha is down. We need a 'lax' and 'strict' mode here to
-         * let the developpers choose whether they want to set a violation in
-         * case of an HTTP error 500+.
-         */
-        if ($statusCode != 200 || !isset($content['success']) || !$content['success']) {
-            $this->context->buildViolation($constraint->message)
-                 ->addViolation();
-
-            // If the logger is present, log the error message from hCaptcha
-            if ($this->logger) {
-                $this->logger->error("Failed to validate captcha: " . print_r($content, TRUE));
+            if (!$verified) {
+                $this->setAsInvalid($constraint);
             }
+        } catch (BadAnswerFromHCaptchaException $e) {
+            /*
+             * The CAPTCHA is considered solved if hCaptcha sends a 'success' answer
+             * (https://docs.hcaptcha.com/#server)
+             * TODO: This is a bit dangerous as no user will be able to submit their
+             * form if hCaptcha is down. We need a 'lax' and 'strict' mode here to
+             * let the developpers choose whether they want to set a violation in
+             * case of an HTTP error 500+.
+             */
+            $this->setAsInvalid($constraint);
         }
     }
 }
