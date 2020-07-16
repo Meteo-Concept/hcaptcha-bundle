@@ -1,5 +1,5 @@
 language: php
-
+sudo: false
 cache:
     directories:
         - $HOME/.composer/cache/files
@@ -7,42 +7,35 @@ cache:
 
 env:
     global:
-        - PHPUNIT_FLAGS="-v"
+        - PHPUNIT_FLAGS="-v --testdox"
         - SYMFONY_PHPUNIT_DIR="$HOME/symfony-bridge/.phpunit"
 
 matrix:
     fast_finish: true
     include:
-          # Minimum supported dependencies with the latest and oldest PHP version
-        - php: 7.2
-          env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="max[self]=0"
-        - php: 7.1
-          env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="max[self]=0"
-
           # Test the latest stable release
-        - php: 7.1
-        - php: 7.2
-          env: COVERAGE=true PHPUNIT_FLAGS="-v --coverage-text"
+        - php: 7.4
+          env: COVERAGE=true PHPUNIT_FLAGS="-v --testsuite main --coverage-text --coverage-clover=build/coverage.xml"  DEPENDENCIES="symfony/http-client"
 
-          # Test LTS versions. This makes sure we do not use Symfony packages with version greater
-          # than 2 or 3 respectively. Read more at https://github.com/symfony/lts
-        - php: 7.2
-          env: DEPENDENCIES="symfony/lts:^2"
-        - php: 7.2
-          env: DEPENDENCIES="symfony/lts:^3"
+        - php: 7.4
+          env: DEPENDENCIES="dunglas/symfony-lock:^3 guzzlehttp/guzzle:^7"
+        - php: 7.4
+          env: DEPENDENCIES="dunglas/symfony-lock:^4 symfony/http-client"
+        - php: 7.4
+          env: DEPENDENCIES="symfony/http-client"
 
           # Latest commit to master
-        - php: 7.2
-          env: STABILITY="dev"
+        - php: 7.4
+          env: STABILITY="dev" DEPENDENCIES="symfony/http-client"
 
     allow_failures:
           # Dev-master is allowed to fail.
-        - env: STABILITY="dev"
+        - env: STABILITY="dev" DEPENDENCIES="symfony/http-client"
 
 before_install:
     - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || true; fi
     - if ! [ -z "$STABILITY" ]; then composer config minimum-stability ${STABILITY}; fi;
-    - if ! [ -v "$DEPENDENCIES" ]; then composer require --no-update ${DEPENDENCIES}; fi;
+    - composer require --no-update ${DEPENDENCIES}
 
 install:
     - composer update ${COMPOSER_FLAGS} --prefer-dist --no-interaction
@@ -50,6 +43,4 @@ install:
 
 script:
     - composer validate --strict --no-check-lock
-    # simple-phpunit is the PHPUnit wrapper provided by the PHPUnit Bridge component and
-    # it helps with testing legacy code and deprecations (composer require symfony/phpunit-bridge)
-    - ./vendor/bin/simple-phpunit $PHPUNIT_FLAGS
+    - SYMFONY_DEPRECATIONS_HELPER=max[total]=999999&max[direct]=0 ./vendor/bin/simple-phpunit $PHPUNIT_FLAGS

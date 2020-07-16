@@ -40,4 +40,12 @@ class HCaptchaValueFetcherTest extends TestCase
         $expected = new HCaptchaResponse('some_response', '10.0.1.1');
         $this->assertEquals($expected, $value);
     }
+
+    public function test_The_value_fetcher_does_not_do_transformation_from_model_to_form_data()
+    {
+        $valueFetcher = new HCaptchaValueFetcher($this->requestStack);
+
+        $value = $valueFetcher->transform(null);
+        $this->assertEquals(null, $value);
+    }
 }

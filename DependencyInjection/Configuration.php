@@ -15,11 +15,17 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
-        // I would prefere meteo_concept_hcaptcha but it's probablu safer
+        // I would prefere meteo_concept_hcaptcha but it's probably safer
         // to stick with strict snake_case to make sure it works.
-        $treeBuilder = new TreeBuilder('meteo_concept_h_captcha');
+        if (method_exists(TreeBuilder::class, 'getRootNode')) {
+            $treeBuilder = new TreeBuilder('meteo_concept_h_captcha');
+            $rootNode = $treeBuilder->getRootNode();
+        } else {
+            $treeBuilder = new TreeBuilder();
+            $rootNode = $treeBuilder->root('meteo_concept_h_captcha');
+        }
 
-        $treeBuilder->getRootNode()
+        $rootNode
             ->children()
                 ->arrayNode('hcaptcha')
                     ->info("The configuration value of your hCaptcha account (visit https://dashboard.hcaptcha.com to find them).")
