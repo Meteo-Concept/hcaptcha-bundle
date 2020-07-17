@@ -21,6 +21,28 @@ Run this command to install and enable this bundle in your application:
 
     $ composer require meteo-concept/hcaptcha-bundle
 
+In order to avoid making you install another HTTP client if you already have a
+compatible one, this bundle depends on *virtual* packages, namely `PSR-18`_
+psr/http-client-interface and `PSR-17`_ psr/http-factory-interface. If you don't
+have any real package already installed in your application providing an
+implementation for these, composer will complain that the bundle is not
+installable. In this case, you have to provide a real implementation at the
+same time as the bundle.
+
+For instance, for Symfony 4 and 5:
+
+.. code-block:: terminal
+
+   $ composer require meteo-concept/hcaptcha-bundle symfony/http-client nyholm/psr7
+
+For Symfony 3:
+
+.. code-block:: terminal
+
+   $ composer require meteo-concept/hcaptcha-bundle guzzlehttp/guzzle nyholm/psr7
+
+If you don't use symfony/flex, you additionally have to enable the bundle in ``config/bundles.php``.
+
 Usage
 -----
 
@@ -114,3 +136,5 @@ submit forms if hCaptcha goes down. We need to make this behaviour configurable.
 
 .. _`hCaptcha`: https://www.hcaptcha.com
 .. _`hCaptcha dashboard`: https://dashboard.hcaptcha.com
+.. _`PSR-17`: https://www.php-fig.org/psr/psr-17/
+.. _`PSR-18`: https://www.php-fig.org/psr/psr-18/
