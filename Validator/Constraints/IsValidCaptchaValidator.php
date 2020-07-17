@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
 use MeteoConcept\HCaptchaBundle\Exception\BadAnswerFromHCaptchaException;
 use MeteoConcept\HCaptchaBundle\Form\HCaptchaResponse;
+use MeteoConcept\HCaptchaBundle\Service\HCaptchaVerifier;
 
 /**
  * @brief Validates a CAPTCHA using the hCaptcha API
@@ -36,15 +37,10 @@ class IsValidCaptchaValidator extends ConstraintValidator
         $this->verifier = $verifier;
     }
 
-    private function setAsInvalid(Constraint $constraint, string $output)
+    private function setAsInvalid(Constraint $constraint)
     {
         $this->context->buildViolation($constraint->message)
              ->addViolation();
-
-        // If the logger is present, log the error message from hCaptcha
-        if ($this->logger) {
-            $this->logger->error("Failed to validate captcha: " . print_r($output, TRUE));
-        }
     }
 
     public function validate($value, Constraint $constraint)
@@ -86,7 +82,7 @@ class IsValidCaptchaValidator extends ConstraintValidator
             $verified = $this->verifier->verify($value, $output);
 
             if (!$verified) {
-                $this->setAsInvalid($constraint, $output);
+                $this->setAsInvalid($constraint);
             }
         } catch (BadAnswerFromHCaptchaException $e) {
             /*
@@ -97,7 +93,7 @@ class IsValidCaptchaValidator extends ConstraintValidator
              * let the developpers choose whether they want to set a violation in
              * case of an HTTP error 500+.
              */
-            $this->setAsInvalid($constraint, $e->getMessage());
+            $this->setAsInvalid($constraint);
         }
     }
 }

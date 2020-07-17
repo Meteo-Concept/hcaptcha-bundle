@@ -2,11 +2,11 @@
 
 namespace MeteoConcept\HCaptchaBundle\Service;
 
-use Psr\Log\LoggerInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Client\ClientInterface;
+use Psr\Log\LoggerInterface;
 
 use MeteoConcept\HCaptchaBundle\Exception\BadAnswerFromHCaptchaException;
 use MeteoConcept\HCaptchaBundle\Form\HCaptchaResponse;
@@ -38,7 +38,8 @@ class HCaptchaVerifier
     private $hcaptchaSecret;
 
     /**
-     * @var LoggerInterface|null An *optional* logger service.
+     * @var LoggerInterface|null An optional logger to log the output from
+     * the hCaptcha endpoint
      */
     private $logger;
 
@@ -63,7 +64,7 @@ class HCaptchaVerifier
      */
     public function __construct(ClientInterface $client,
         RequestFactoryInterface $requestFactory, StreamFactoryInterface $streamFactory,
-        string $hcaptchaSecret, LoggerInterface $logger)
+        string $hcaptchaSecret, LoggerInterface $logger = null)
     {
         $this->client = $client;
         $this->requestFactory = $requestFactory;
@@ -75,14 +76,14 @@ class HCaptchaVerifier
     public function verify(HCaptchaResponse $value, string &$output = null): bool
     {
         // Make the validation request to hCaptcha
-        $request = $this->requestFactory->createRequest('POST', self::HCAPTCHA_VERIFY_URL);
         $stream = $this->streamFactory->createStream(
-            "response=" . urlencode($value->getResponse) . "&" .
-            "remoteip=" . urlencode($value->getRemoteIp) . "&" .
+            "response=" . urlencode($value->getResponse()) . "&" .
+            "remoteip=" . urlencode($value->getRemoteIp()) . "&" .
             "secret="   . urlencode($this->hcaptchaSecret)
         );
-        $request->withBody($stream);
-        $request->withHeader('Content-Type', 'application/x-www-form-urlencoded');
+        $request = $this->requestFactory->createRequest('POST', self::HCAPTCHA_VERIFY_URL)
+            ->withBody($stream)
+            ->withHeader('Content-Type', 'application/x-www-form-urlencoded');
         $response = $this->client->sendRequest($request);
 
         $statusCode = $response->getStatusCode();
@@ -97,7 +98,7 @@ class HCaptchaVerifier
             throw new BadAnswerFromHCaptchaException("Unexpectedly large answer from hCaptcha endpoint");
         }
 
-        $content = $body->getContents();
+        $content = $body->__toString();
         $json = json_decode($content, TRUE);
         if (null === $json || !isset($json['success'])) {
             // Catch answers out of the specification
@@ -107,6 +108,10 @@ class HCaptchaVerifier
         if (isset($output)) {
             // Send the raw hCaptcha response to the caller if it wants it
             $output = $content;
+
+            if ($this->logger) {
+                $this->logger->notice("The hCaptcha endpoint returned: {$output}");
+            }
         }
         return $json['success'];
     }

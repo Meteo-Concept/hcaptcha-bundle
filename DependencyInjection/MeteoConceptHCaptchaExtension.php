@@ -22,8 +22,8 @@ class MeteoConceptHCaptchaExtension extends Extension
 
         // Take the hCaptcha site key and secret from the configuration to
         // inject them automatically in the form type and the CAPTCHA validator
-        $validator = $container->getDefinition('meteo_concept_h_captcha.captcha_validator');
-        $validator->replaceArgument(1, $config['hcaptcha']['secret']);
+        $validator = $container->getDefinition('meteo_concept_h_captcha.captcha_verifier');
+        $validator->replaceArgument(3, $config['hcaptcha']['secret']);
         $formtype = $container->getDefinition('meteo_concept_h_captcha.hcaptcha_form_type');
         $formtype->replaceArgument(1, $config['hcaptcha']['site_key']);
     }

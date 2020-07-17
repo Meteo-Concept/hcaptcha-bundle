@@ -8,13 +8,26 @@
         <defaults autowire="false" autoconfigure="false" public="false">
         </defaults>
 
+        <service id="meteo_concept_h_captcha.captcha_verifier"
+            class="MeteoConcept\HCaptchaBundle\Service\HCaptchaVerifier"
+            public="true">
+            <argument type="service" id="Psr\Http\Client\ClientInterface"/>
+            <argument type="service" id="Psr\Http\Message\RequestFactoryInterface"/>
+            <argument type="service" id="Psr\Http\Message\StreamFactoryInterface"/>
+            <argument type="string"></argument>
+            <argument type="service" id="logger" on-invalid="null"/>
+        </service>
+
+        <service id="MeteoConcept\HCaptchaBundle\Service\HCaptchaVerifier"
+            alias="meteo_concept_h_captcha.captcha_verifier"
+            public="false">
+        </service>
+
         <service id="meteo_concept_h_captcha.captcha_validator"
             class="MeteoConcept\HCaptchaBundle\Validator\Constraints\IsValidCaptchaValidator"
             public="true">
             <tag name="validator.constraint_validator"/>
-            <argument type="service" id="http_client"/>
-            <argument type="string"></argument>
-            <argument type="service" id="logger" on-invalid="null"/>
+            <argument type="service" id="meteo_concept_h_captcha.captcha_verifier"/>
         </service>
 
         <service id="MeteoConcept\HCaptchaBundle\Validator\Constraints\IsAValidCaptchaValidator"
