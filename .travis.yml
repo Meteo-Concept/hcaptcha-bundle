@@ -9,6 +9,7 @@ env:
     global:
         - PHPUNIT_FLAGS="-v --testdox"
         - SYMFONY_PHPUNIT_DIR="$HOME/symfony-bridge/.phpunit"
+        - SYMFONY_DEPRECATIONS_HELPER="max[total]=999999&max[direct]=0"
 
 matrix:
     fast_finish: true
@@ -43,4 +44,4 @@ install:
 
 script:
     - composer validate --strict --no-check-lock
-    - SYMFONY_DEPRECATIONS_HELPER=max[total]=999999&max[direct]=0 ./vendor/bin/simple-phpunit $PHPUNIT_FLAGS
+    - ./vendor/bin/simple-phpunit $PHPUNIT_FLAGS
