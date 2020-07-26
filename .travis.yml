@@ -1,5 +1,4 @@
 language: php
-sudo: false
 cache:
     directories:
         - $HOME/.composer/cache/files
@@ -11,7 +10,7 @@ env:
         - SYMFONY_PHPUNIT_DIR="$HOME/symfony-bridge/.phpunit"
         - SYMFONY_DEPRECATIONS_HELPER="max[total]=999999&max[direct]=0"
 
-matrix:
+jobs:
     fast_finish: true
     include:
           # Test the latest stable release
