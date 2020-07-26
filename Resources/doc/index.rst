@@ -94,7 +94,7 @@ the call to the hCaptcha validation endpoint.
 Configuration
 -------------
 
-This bundle requires a minimal configuration: the values configured on you
+This bundle requires a minimal configuration: the values configured on your
 `hCaptcha dashboard`_.
 
 .. code-block:: yaml
@@ -119,11 +119,13 @@ wish to use the custom widget, you must configure it at the beginning of you
 list of form themes (before any more generic themes that would overwrite it).
 
 .. code-block:: yaml↲
-twig:↲
-    ...↲
-    form_themes:↲
-        - '@MeteoConceptHCaptcha/hcaptcha_form.html.twig'↲
-        - ...↲
+ 
+    # config/packages/meteo_concept_h_bundle.yaml
+    twig:↲
+        #...↲
+        form_themes:↲
+            - '@MeteoConceptHCaptcha/hcaptcha_form.html.twig'↲
+        #   - ...↲
 
 TODO
 ----
