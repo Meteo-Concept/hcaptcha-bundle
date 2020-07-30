@@ -14,7 +14,7 @@
             <argument type="service" id="Psr\Http\Client\ClientInterface"/>
             <argument type="service" id="Psr\Http\Message\RequestFactoryInterface"/>
             <argument type="service" id="Psr\Http\Message\StreamFactoryInterface"/>
-            <argument type="string"></argument>
+            <argument type="string"></argument> <!-- hCaptcha secret -->
             <argument type="service" id="logger" on-invalid="null"/>
         </service>
 
@@ -28,6 +28,7 @@
             public="true">
             <tag name="validator.constraint_validator"/>
             <argument type="service" id="meteo_concept_h_captcha.captcha_verifier"/>
+            <argument type="string"></argument> <!-- validation mode: strict or lax -->
         </service>
 
         <service id="MeteoConcept\HCaptchaBundle\Validator\Constraints\IsAValidCaptchaValidator"
@@ -40,7 +41,7 @@
             public="true">
             <tag name="form.type" alias="hcaptcha"/>
             <argument type="service" id="meteo_concept_h_captcha.hcaptcha_value_fetcher"></argument>
-            <argument type="string"></argument>
+            <argument type="string"></argument> <!-- hCaptcha site key -->
         </service>
 
         <service id="MeteoConcept\HCaptchaBundle\Form\HCaptchaType"

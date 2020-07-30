@@ -26,6 +26,8 @@ class MeteoConceptHCaptchaExtension extends Extension
         $validator->replaceArgument(3, $config['hcaptcha']['secret']);
         $formtype = $container->getDefinition('meteo_concept_h_captcha.hcaptcha_form_type');
         $formtype->replaceArgument(1, $config['hcaptcha']['site_key']);
+        $formtype = $container->getDefinition('meteo_concept_h_captcha.captcha_validator');
+        $formtype->replaceArgument(1, $config['validation']);
     }
 
     public function getNamespace()

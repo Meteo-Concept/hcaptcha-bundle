@@ -21,10 +21,28 @@ use MeteoConcept\HCaptchaBundle\Service\HCaptchaVerifier;
 class IsValidCaptchaValidator extends ConstraintValidator
 {
     /**
+     * @var string The 'strict' level of validation: raise a violation when
+     * hCaptcha endpoint doesn't return a "success: true" answer
+     */
+    const STRICT_VALIDATION = 'strict';
+
+    /**
+     * @var string The 'lax' level of validation: do not raise a violation when
+     * hCaptcha endpoint times out or return an unexpected answer
+     */
+    const LAX_VALIDATION = 'lax';
+
+    /**
      * @var HCaptchaVerifier The service that sends the verification request
      * to the hCaptcha endpoint.
      */
     private $verifier;
+
+    /**
+     * @var string The level of validation, see STRICT_VALIDATION and
+     * LAX_VALIDATION above
+     */
+    private $validation;
 
     /**
      * @brief Constructs the validator from injected dependencies
@@ -32,9 +50,10 @@ class IsValidCaptchaValidator extends ConstraintValidator
      * @param HCaptchaVerifier $verifier The service that sends the verification
      * request to the hCaptcha endpoint
      */
-    public function __construct(HCaptchaVerifier $verifier)
+    public function __construct(HCaptchaVerifier $verifier, string $validation)
     {
         $this->verifier = $verifier;
+        $this->validation = $validation;
     }
 
     private function setAsInvalid(Constraint $constraint)
@@ -85,15 +104,16 @@ class IsValidCaptchaValidator extends ConstraintValidator
                 $this->setAsInvalid($constraint);
             }
         } catch (BadAnswerFromHCaptchaException $e) {
-            /*
-             * The CAPTCHA is considered solved if hCaptcha sends a 'success' answer
-             * (https://docs.hcaptcha.com/#server)
-             * TODO: This is a bit dangerous as no user will be able to submit their
-             * form if hCaptcha is down. We need a 'lax' and 'strict' mode here to
-             * let the developpers choose whether they want to set a violation in
-             * case of an HTTP error 500+.
-             */
-            $this->setAsInvalid($constraint);
+            if ($this->validation === self::STRICT_VALIDATION) {
+                /*
+                 * The CAPTCHA is considered solved if hCaptcha sends a 'success' answer
+                 * (https://docs.hcaptcha.com/#server)
+                 */
+                $this->setAsInvalid($constraint);
+            }
+            // else ('lax' validation mode), if the hCaptcha endpoint is
+            // unresponsive (timeout, maintainance, etc.), we still validate
+            // the answer so that we don't frustrate the users too much.
         }
     }
 }

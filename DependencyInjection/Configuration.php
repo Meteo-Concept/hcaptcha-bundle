@@ -41,6 +41,16 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+                ->scalarNode('validation')
+                    ->info("If 'lax', the CAPTCHA will be considered valid if the hCaptcha endpoint " .
+                    "times out or return an unexpected answer. If 'strict' (the default), the hCaptcha " .
+                    "MUST return a \"success: true\" answer for the CAPTCHA to validate.")
+                    ->defaultValue('strict')
+                    ->validate()
+                        ->ifNotInArray(['strict', 'lax'])
+                        ->thenInvalid('Invalid validation mode %s')
+                    ->end()
+                ->end()
             ->end()
         ;
 

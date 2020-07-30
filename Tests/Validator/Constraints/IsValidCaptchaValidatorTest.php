@@ -11,6 +11,7 @@ use MeteoConcept\HCaptchaBundle\Validator\Constraints\IsValidCaptchaValidator;
 use MeteoConcept\HCaptchaBundle\Validator\Constraints\IsValidCaptcha;
 use MeteoConcept\HCaptchaBundle\Service\HCaptchaVerifier;
 use MeteoConcept\HCaptchaBundle\Form\HCaptchaResponse;
+use MeteoConcept\HCaptchaBundle\Exception\BadAnswerFromHCaptchaException;
 
 class IsValidCaptchaValidatorTest extends TestCase
 {
@@ -29,7 +30,7 @@ class IsValidCaptchaValidatorTest extends TestCase
         $this->hCaptchaVerifier = $this->createMock(HCaptchaVerifier::class);
         $this->executionContext = $this->createMock(ExecutionContextInterface::class);
         $this->violationBuilder = $this->createMock(ConstraintViolationBuilderInterface::class);
-        $this->validator = new IsValidCaptchaValidator($this->hCaptchaVerifier);
+        $this->validator = new IsValidCaptchaValidator($this->hCaptchaVerifier, 'strict');
         $this->validator->initialize($this->executionContext);
         $this->constraint = new IsValidCaptcha();
     }
@@ -72,6 +73,50 @@ class IsValidCaptchaValidatorTest extends TestCase
             ->expects($this->once())
             ->method('addViolation')
             ->willReturn(null);
+
+        $this->validator->validate($value, $this->constraint);
+    }
+
+    public function test_The_validator_sets_a_violation_if_the_verification_throws_in_strict_mode()
+    {
+        $value = new HCaptchaResponse("ok", "");
+
+        $this->hCaptchaVerifier
+             ->expects($this->once())
+             ->method('verify')
+             ->with($value, "")
+             ->will($this->throwException(new BadAnswerFromHCaptchaException("oops")));
+
+        $this->executionContext
+            ->expects($this->once())
+            ->method('buildViolation')
+            ->with($this->constraint->message)
+            ->willReturn($this->violationBuilder);
+
+        $this->violationBuilder
+            ->expects($this->once())
+            ->method('addViolation')
+            ->willReturn(null);
+
+        $this->validator->validate($value, $this->constraint);
+    }
+
+    public function test_The_validator_does_not_set_a_violation_if_the_verification_throws_in_lax_mode()
+    {
+        $this->validator = new IsValidCaptchaValidator($this->hCaptchaVerifier, 'lax');
+        $this->validator->initialize($this->executionContext);
+
+        $value = new HCaptchaResponse("ok", "");
+
+        $this->hCaptchaVerifier
+             ->expects($this->once())
+             ->method('verify')
+             ->with($value, "")
+             ->will($this->throwException(new BadAnswerFromHCaptchaException("oops")));
+
+        $this->executionContext
+            ->expects($this->never())
+            ->method('buildViolation');
 
         $this->validator->validate($value, $this->constraint);
     }
