@@ -73,6 +73,7 @@ meteo_concept_h_captcha:
   hcaptcha:
     site_key: '%hcaptcha_site_key%'
     secret: '%hcaptcha_secret%'
+  validation: 'strict' # this is the default
 ```
 
 with the corresponding change in `.env`:
@@ -82,10 +83,23 @@ HCAPTCHA_SITE_KEY="10000000-ffff-ffff-ffff-000000000001"
 HCAPTACHA_SECRET="0x0000000000000000000000000000000000000000"
 ```
 
-The site key and secret are the values hCaptcha gives you at https://dashboard.hcaptcha.com. The global configuration makes all captchas use the same site key by default but it's possible to change it in the definition of each form.
-The values shown here are dummy values usable for integration testing (https://docs.hcaptcha.com/#integrationtest). Put the real values in `.env.local` (at least, the secret, the site key is public).
+The site key and secret are the values hCaptcha gives you at
+https://dashboard.hcaptcha.com. The global configuration makes all captchas use
+the same site key by default but it's possible to change it in the definition of
+each form.
 
-Configure Twig to load the specific template for the hCaptcha widget (or provide your own).
+The values shown here are dummy values usable for integration testing
+(https://docs.hcaptcha.com/#integrationtest). Put the real values in
+`.env.local` (at least, the secret, the site key is public).
+
+The validation can be set to 'strict' or 'lax'. If it's 'lax', then the CAPTCHA
+will be considered valid even if the hCaptcha endpoint times out or return a
+HTTP 500 error for instance (so as to not frustrate the users too much). If it's
+strict (the default), then the CAPTCHA will not be considered valid unless the
+endpoint returns a "success: true" answer.
+
+Configure Twig to load the specific template for the hCaptcha widget (or provide
+your own).
 
 ```yaml
 twig:

@@ -109,6 +109,10 @@ This bundle requires a minimal configuration: the values configured on your
             # to authenticate your requests to the hCaptcha /siteverify
             # API endpoint
             secret: '%env(resolve:HCAPTCHA_SECRET)%'
+        # set this to 'lax' if you want to validate the form in case the
+        # hCaptcha endpoint is unresponsive or leave it to 'strict' (the
+        # default) if you want a "success: true" answer to validate the form
+        validation: strict
 
 This bundle comes with a minimal Twig template for the hCaptcha widget.  It
 only overwrites the widget itself not the entire field row. The
@@ -119,22 +123,13 @@ wish to use the custom widget, you must configure it at the beginning of you
 list of form themes (before any more generic themes that would overwrite it).
 
 .. code-block:: yaml
- 
+
     # config/packages/meteo_concept_h_bundle.yaml
     twig:↲
         #...
         form_themes:
             - '@MeteoConceptHCaptcha/hcaptcha_form.html.twig'
         #   - ...
-
-TODO
-----
-
-For now, if the hCaptcha endpoint returns an HTTP error or times out, the
-CAPTCHA is considered invalid. This means that your users can no longer
-submit forms if hCaptcha goes down. We need to make this behaviour configurable.
-
-
 
 .. _`hCaptcha`: https://www.hcaptcha.com
 .. _`hCaptcha dashboard`: https://dashboard.hcaptcha.com

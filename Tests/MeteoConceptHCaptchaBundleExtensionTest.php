@@ -19,7 +19,8 @@ class MeteoConceptHCaptchaExtensionTest extends AbstractExtensionTestCase
             'hcaptcha' => [
                 'site_key' => '10000000-ffff-ffff-ffff-000000000001',
                 'secret'   => '0x0000000000000000000000000000000000000000',
-            ]
+            ],
+            'validation' => 'lax',
         ];
     }
 
@@ -33,5 +34,11 @@ class MeteoConceptHCaptchaExtensionTest extends AbstractExtensionTestCase
     {
         $this->load();
         $this->assertContainerBuilderHasServiceDefinitionWithArgument('meteo_concept_h_captcha.hcaptcha_form_type', 1, '10000000-ffff-ffff-ffff-000000000001');
+    }
+
+    public function test_the_captcha_validator_definition_is_passed_the_validation_mode()
+    {
+        $this->load();
+        $this->assertContainerBuilderHasServiceDefinitionWithArgument('meteo_concept_h_captcha.captcha_validator', 1, 'lax');
     }
 }
