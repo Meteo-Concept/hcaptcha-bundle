@@ -49,6 +49,7 @@ class IsValidCaptchaValidator extends ConstraintValidator
      *
      * @param HCaptchaVerifier $verifier The service that sends the verification
      * request to the hCaptcha endpoint
+     * @param string $validation The level of validation, strict or lax
      */
     public function __construct(HCaptchaVerifier $verifier, string $validation)
     {
