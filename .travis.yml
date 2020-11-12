@@ -25,6 +25,8 @@ jobs:
           env: DEPENDENCIES="symfony/http-client"
 
           # Latest commit to master
+        - php: 7.1
+          env: STABILITY="dev" DEPENDENCIES="symfony/http-client"
         - php: 7.4
           env: STABILITY="dev" DEPENDENCIES="symfony/http-client"
 
