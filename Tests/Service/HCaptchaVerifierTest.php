@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Http\Mock\Client;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Log\LoggerInterface;
 use Nyholm\Psr7\Factory\Psr17Factory;
 
 use MeteoConcept\HCaptchaBundle\Form\HCaptchaResponse;
@@ -51,6 +52,25 @@ class HCaptchaVerifierTest extends TestCase
         $this->assertTrue(in_array("secret={$this->hcaptchaSecret}", $content));
 
         $this->assertTrue($verification);
+    }
+
+    public function test_The_answer_from_HCaptcha_is_logged_if_a_logger_is_configured()
+    {
+        $body = $this->psr17factory->createStream('{ "success": true }');
+        $response = $this->psr17factory->createResponse(200)->withBody($body);
+        $this->client->addResponse($response);
+
+        $logger = $this->createMock(LoggerInterface::class);
+        $hCaptchaVerifierWithLogger = new HCaptchaVerifier($this->client, $this->psr17factory, $this->psr17factory, $this->hcaptchaSecret, $logger);
+
+        $logger->expects($this->once())
+               ->method('notice')
+               ->with($this->stringContains('{ "success": true }'));
+
+        $captchaValue = new HCaptchaResponse("response", "remoteip");
+        $output = "";
+        $verification = $hCaptchaVerifierWithLogger->verify($captchaValue, $output);
+        $this->assertEquals($output, '{ "success": true }');
     }
 
     public function test_The_verifier_returns_false_without_throwing_if_the_answer_is_no()
