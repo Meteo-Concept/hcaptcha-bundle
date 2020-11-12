@@ -52,8 +52,13 @@ class HCaptchaValueFetcher implements DataTransformerInterface
          * variable that would let the Symfony Form component find it on its own.
          */
         $masterRequest = $this->requestStack->getMasterRequest();
-        $remoteIp      = $masterRequest->getClientIp();
         $response      = $masterRequest->get("h-captcha-response");
+
+        // Can happen if the Captcha JS has failed to load for instance
+        if (null === $response)
+            return null;
+
+        $remoteIp = $masterRequest->getClientIp();
 
         return new HCaptchaResponse($response, $remoteIp);
     }

@@ -30,7 +30,7 @@ final class HCaptchaResponse
      * challenge
      * @param $remoteIp string The user's IP address
      */
-    public function __construct(string $response, string $remoteIp)
+    public function __construct(string $response, ?string $remoteIp)
     {
         $this->response = $response;
         $this->remoteIp = $remoteIp;
