@@ -6,7 +6,7 @@ HCaptchaType, that is used to display and validate a CAPTCHA served by
 https://www.hcaptcha.com.
 
 This bundle is tested for Symfony major versions 3, 4 and 5. It works
-with PHP 7.1 butf you want to run the tests the dev dependencies
+with PHP 7.1 but if you want to run the tests the dev dependencies
 require PHP 7.2+.
 
 Installation
@@ -64,6 +64,11 @@ return [
 
 Configuration
 ------
+
+This captcha is provided with a  Symfony flex contrib recipe so it should come
+with a configuration if you have those enabled. Otherwise, you can copy the
+configuration from the contrib repository:
+https://github.com/symfony/recipes-contrib/tree/master/meteo-concept/hcaptcha-bundle.
 
 Configure the bundle, for instance in `config/packages/meteo_concept_hcaptcha.yml`:
 
