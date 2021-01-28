@@ -1,10 +1,13 @@
-HCaptcha bundle for Symfony 4+ [![Build Status](https://travis-ci.org/Meteo-Concept/hcaptcha-bundle.svg?branch=master)](https://travis-ci.org/Meteo-Concept/hcaptcha-bundle)
+HCaptcha bundle for Symfony 3+ [![Build Status](https://travis-ci.org/Meteo-Concept/hcaptcha-bundle.svg?branch=master)](https://travis-ci.org/Meteo-Concept/hcaptcha-bundle)
 ============
 
-Basically, this bundle brings into your Symfony website a new Form type, namely
+This bundle brings into your Symfony website a new Form type, namely
 HCaptchaType, that is used to display and validate a CAPTCHA served by
 https://www.hcaptcha.com.
 
+This bundle is tested for Symfony major versions 3, 4 and 5. It works
+with PHP 7.1 butf you want to run the tests the dev dependencies
+require PHP 7.2+.
 
 Installation
 ----------
@@ -152,4 +155,4 @@ class ContactType extends AbstractType
 }
 ```
 
-By default, the HCaptchaFormType class validates the field againt constraints `NotBlank` and `IsValidCaptcha` (a new constraint installed with this bundle whose validator makes the CAPTCHA check by calling the hCaptcha API). You can override this set of constraints by passing the `constraints` option to the form builder. Also, HCaptchaFormType fields are passed `'mapped' => false` by default since it doesn't make much sense to persist CAPTCHA values.
+By default, the HCaptchaFormType class validates the field against constraints `NotBlank` and `IsValidCaptcha` (a new constraint installed with this bundle whose validator makes the CAPTCHA check by calling the hCaptcha API). You can override this set of constraints by passing the `constraints` option to the form builder. Also, HCaptchaFormType fields are passed `'mapped' => false` by default since it doesn't make much sense to persist CAPTCHA values.
