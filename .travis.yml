@@ -15,7 +15,7 @@ jobs:
     include:
           # Test the latest stable release
         - php: 7.4
-          env: COVERAGE=true PHPUNIT_FLAGS="-v --testsuite main --coverage-text --coverage-clover=build/coverage.xml"  DEPENDENCIES="symfony/http-client"
+          env: XDEBUG_MODE=coverage COVERAGE=true PHPUNIT_FLAGS="-v --testsuite main --coverage-text --coverage-clover=build/coverage.xml"  DEPENDENCIES="symfony/http-client"
 
         - php: 7.4
           env: DEPENDENCIES="dunglas/symfony-lock:^3 guzzlehttp/guzzle:^7"
