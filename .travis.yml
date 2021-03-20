@@ -16,6 +16,8 @@ jobs:
           # Test the latest stable release
         - php: 7.4
           env: COVERAGE=true PHPUNIT_FLAGS="-v --testsuite main --coverage-text --coverage-clover=build/coverage.xml"  DEPENDENCIES="symfony/http-client"
+        - php: 8.0
+          env: COVERAGE=true PHPUNIT_FLAGS="-v --testsuite main --coverage-text --coverage-clover=build/coverage.xml"  DEPENDENCIES="symfony/http-client"
 
         - php: 7.4
           env: DEPENDENCIES="dunglas/symfony-lock:^3 guzzlehttp/guzzle:^7"
@@ -25,9 +27,11 @@ jobs:
           env: DEPENDENCIES="symfony/http-client"
 
           # Latest commit to master
-        - php: 7.1
+        - php: 7.2
           env: STABILITY="dev" DEPENDENCIES="symfony/http-client"
         - php: 7.4
+          env: STABILITY="dev" DEPENDENCIES="symfony/http-client"
+        - php: 8.0
           env: STABILITY="dev" DEPENDENCIES="symfony/http-client"
 
     allow_failures:
