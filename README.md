@@ -153,3 +153,10 @@ class ContactType extends AbstractType
 ```
 
 By default, the HCaptchaFormType class validates the field againt constraints `NotBlank` and `IsValidCaptcha` (a new constraint installed with this bundle whose validator makes the CAPTCHA check by calling the hCaptcha API). You can override this set of constraints by passing the `constraints` option to the form builder. Also, HCaptchaFormType fields are passed `'mapped' => false` by default since it doesn't make much sense to persist CAPTCHA values.
+
+
+Updates and breaking changes
+----------------------------
+
+- In major version 2, support for PHP7.1 has been dropped and support for PHP8.0
+added.
