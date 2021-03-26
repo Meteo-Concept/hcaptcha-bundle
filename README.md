@@ -88,7 +88,7 @@ with the corresponding change in `.env`:
 
 ```ini
 HCAPTCHA_SITE_KEY="10000000-ffff-ffff-ffff-000000000001"
-HCAPTACHA_SECRET="0x0000000000000000000000000000000000000000"
+HCAPTCHA_SECRET="0x0000000000000000000000000000000000000000"
 ```
 
 The site key and secret are the values hCaptcha gives you at
