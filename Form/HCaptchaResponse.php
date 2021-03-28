@@ -69,7 +69,7 @@ final class HCaptchaResponse
      * @brief Gets the hCaptcha site key
      *
      * @return string|null The hCaptcha site key configured for the form, to be
-     * sent back  in the hCaptcha verification request
+     * sent back in the hCaptcha verification request
      */
     public function getSiteKey(): ?string
     {

@@ -84,9 +84,9 @@ class HCaptchaType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         /*
-         * Set the 'mapped' to false since CAPTCHAs are not meant to be
+         * Set the 'mapped' option to false since CAPTCHAs are not meant to be
          * persisted.
-         * Set the constrait 'NotBlank' and 'IsValidCaptcha' because
+         * Set the constraints 'NotBlank' and 'IsValidCaptcha' because
          * this is almost always the desired combination of constraints
          * (as usual with custom constraints, the constraint IsValidCaptcha
          * returns silently if the value is null, which is why NotBlank()
@@ -102,8 +102,8 @@ class HCaptchaType extends AbstractType
         ]);
 
         /*
-         * The hCaptcha globally configured site key is only used as default if
-         * it's available otherwise, the setRequired() call below will ensure
+         * The hCaptcha globally configured site key is only used by default if
+         * it's available. In any wase, the setRequired() call below will ensure
          * that the form has the hcaptcha_site_key option set.
          */
         if (null !== $this->hcaptchaSiteKey) {
