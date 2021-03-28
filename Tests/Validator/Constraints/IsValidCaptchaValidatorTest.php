@@ -37,7 +37,7 @@ class IsValidCaptchaValidatorTest extends TestCase
 
     public function test_The_validator_sets_a_violation_if_the_response_is_empty()
     {
-        $value = new HCaptchaResponse("", "");
+        $value = new HCaptchaResponse("", "", "");
 
         $this->executionContext
             ->expects($this->once())
@@ -55,7 +55,7 @@ class IsValidCaptchaValidatorTest extends TestCase
 
     public function test_The_validator_sets_a_violation_if_the_verification_fails()
     {
-        $value = new HCaptchaResponse("ok", "");
+        $value = new HCaptchaResponse("ok", "", "");
 
         $this->hCaptchaVerifier
              ->expects($this->once())
@@ -79,7 +79,7 @@ class IsValidCaptchaValidatorTest extends TestCase
 
     public function test_The_validator_sets_a_violation_if_the_verification_throws_in_strict_mode()
     {
-        $value = new HCaptchaResponse("ok", "");
+        $value = new HCaptchaResponse("ok", "", "");
 
         $this->hCaptchaVerifier
              ->expects($this->once())
@@ -106,7 +106,7 @@ class IsValidCaptchaValidatorTest extends TestCase
         $this->validator = new IsValidCaptchaValidator($this->hCaptchaVerifier, 'lax');
         $this->validator->initialize($this->executionContext);
 
-        $value = new HCaptchaResponse("ok", "");
+        $value = new HCaptchaResponse("ok", "", "");
 
         $this->hCaptchaVerifier
              ->expects($this->once())
@@ -123,7 +123,7 @@ class IsValidCaptchaValidatorTest extends TestCase
 
     public function test_The_validator_does_not_set_a_violation_if_the_verification_succeeds()
     {
-        $value = new HCaptchaResponse("ok", "");
+        $value = new HCaptchaResponse("ok", "", "");
 
         $this->hCaptchaVerifier
              ->expects($this->once())

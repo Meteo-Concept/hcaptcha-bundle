@@ -53,9 +53,10 @@ class HCaptchaValueFetcherTest extends TestCase
     public function test_The_value_fetcher_builds_the_correct_form_value_from_the_request()
     {
         $valueFetcher = new HCaptchaValueFetcher($this->requestStack);
+        $valueFetcher->setSiteKey('some_site_key');
 
         $value = $valueFetcher->reverseTransform(null);
-        $expected = new HCaptchaResponse('some_response', '10.0.1.1');
+        $expected = new HCaptchaResponse('some_response', '10.0.1.1', 'some_site_key');
         $this->assertEquals($expected, $value);
     }
 

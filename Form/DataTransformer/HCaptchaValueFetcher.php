@@ -17,7 +17,13 @@ class HCaptchaValueFetcher implements DataTransformerInterface
      * @var RequestStack The service needed to get access to the POST
      * variables
      */
-    private $requestStack;
+    protected $requestStack;
+
+    /**
+     * @var string|null The hCaptcha site key configured for the hCaptcha form
+     * widget
+     */
+    protected $siteKey;
 
     /**
      * @brief Constructs an instance of the HCaptchaValueFetcher from
@@ -32,6 +38,20 @@ class HCaptchaValueFetcher implements DataTransformerInterface
     public function __construct(RequestStack $requestStack)
     {
         $this->requestStack = $requestStack;
+    }
+
+    /**
+     * @brief Set the hCaptcha site key configured for the form to which this
+     * data transformer is attached
+     *
+     * This site key is then embedded into the value of the hCaptcha form widget
+     * in order to be sent to hCaptcha as pert of the verification request.
+     *
+     * @param string $siteKey The hCaptcha site key
+     */
+    public function setSiteKey(?string $siteKey)
+    {
+        $this->siteKey = $siteKey;
     }
 
     public function transform($value)
@@ -60,6 +80,6 @@ class HCaptchaValueFetcher implements DataTransformerInterface
 
         $remoteIp = $masterRequest->getClientIp();
 
-        return new HCaptchaResponse($response, $remoteIp);
+        return new HCaptchaResponse($response, $remoteIp, $this->siteKey);
     }
 }

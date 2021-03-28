@@ -23,6 +23,12 @@ final class HCaptchaResponse
     private $remoteIp;
 
     /**
+     * @var string The hCaptcha site key configured for the form, this is an
+     * optional but recommended field in the hCaptcha verification request
+     */
+    private $siteKey;
+
+    /**
      * @brief Constructs an immutable instance of HCaptchaResponse from a
      * hCaptcha response and a user's IP address
      *
@@ -30,10 +36,11 @@ final class HCaptchaResponse
      * challenge
      * @param $remoteIp string The user's IP address
      */
-    public function __construct(string $response, ?string $remoteIp)
+    public function __construct(string $response, ?string $remoteIp, ?string $siteKey)
     {
         $this->response = $response;
         $this->remoteIp = $remoteIp;
+        $this->siteKey  = $siteKey;
     }
 
     /**
@@ -50,11 +57,22 @@ final class HCaptchaResponse
     /**
      * @brief Gets the user's IP address
      *
-     * @return string The user's IP address set at the construction of the
+     * @return string|null The user's IP address set at the construction of the
      * instance
      */
-    public function getRemoteIp(): string
+    public function getRemoteIp(): ?string
     {
         return $this->remoteIp;
+    }
+
+    /**
+     * @brief Gets the hCaptcha site key
+     *
+     * @return string|null The hCaptcha site key configured for the form, to be
+     * sent back  in the hCaptcha verification request
+     */
+    public function getSiteKey(): ?string
+    {
+        return $this->siteKey;
     }
 }

@@ -79,7 +79,8 @@ class HCaptchaVerifier
         $stream = $this->streamFactory->createStream(
             "response=" . urlencode($value->getResponse()) . "&" .
             "remoteip=" . urlencode($value->getRemoteIp()) . "&" .
-            "secret="   . urlencode($this->hcaptchaSecret)
+            "secret="   . urlencode($this->hcaptchaSecret) . "&" .
+            "sitekey="  . urlencode($value->getSiteKey())
         );
         $request = $this->requestFactory->createRequest('POST', self::HCAPTCHA_VERIFY_URL)
             ->withBody($stream)

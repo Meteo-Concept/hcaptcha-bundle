@@ -38,7 +38,7 @@ class HCaptchaVerifierTest extends TestCase
         $response = $this->psr17factory->createResponse(200)->withBody($body);
         $this->client->addResponse($response);
 
-        $captchaValue = new HCaptchaResponse("response", "remoteip");
+        $captchaValue = new HCaptchaResponse("response", "remoteip", "sitekey");
         $verification = $this->hCaptchaVerifier->verify($captchaValue);
 
         $requests = $this->client->getRequests();
@@ -50,6 +50,7 @@ class HCaptchaVerifierTest extends TestCase
         $this->assertTrue(in_array('response=response', $content));
         $this->assertTrue(in_array('remoteip=remoteip', $content));
         $this->assertTrue(in_array("secret={$this->hcaptchaSecret}", $content));
+        $this->assertTrue(in_array('sitekey=sitekey', $content));
 
         $this->assertTrue($verification);
     }
@@ -67,7 +68,7 @@ class HCaptchaVerifierTest extends TestCase
                ->method('notice')
                ->with($this->stringContains('{ "success": true }'));
 
-        $captchaValue = new HCaptchaResponse("response", "remoteip");
+        $captchaValue = new HCaptchaResponse("response", "remoteip", "sitekey");
         $output = "";
         $verification = $hCaptchaVerifierWithLogger->verify($captchaValue, $output);
         $this->assertEquals($output, '{ "success": true }');
@@ -79,7 +80,7 @@ class HCaptchaVerifierTest extends TestCase
         $response = $this->psr17factory->createResponse(200)->withBody($body);
         $this->client->addResponse($response);
 
-        $captchaValue = new HCaptchaResponse("badresponse", "remoteip");
+        $captchaValue = new HCaptchaResponse("badresponse", "remoteip", "sitekey");
         $verification = $this->hCaptchaVerifier->verify($captchaValue);
 
         $this->assertFalse($verification);
@@ -92,7 +93,7 @@ class HCaptchaVerifierTest extends TestCase
 
         $this->expectException(BadAnswerFromHCaptchaException::class);
 
-        $captchaValue = new HCaptchaResponse("response", "remoteip");
+        $captchaValue = new HCaptchaResponse("response", "remoteip", "sitekey");
         $verification = $this->hCaptchaVerifier->verify($captchaValue);
     }
 
@@ -104,7 +105,7 @@ class HCaptchaVerifierTest extends TestCase
 
         $this->expectException(BadAnswerFromHCaptchaException::class);
 
-        $captchaValue = new HCaptchaResponse("response", "remoteip");
+        $captchaValue = new HCaptchaResponse("response", "remoteip", "sitekey");
         $verification = $this->hCaptchaVerifier->verify($captchaValue);
     }
 }

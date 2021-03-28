@@ -36,7 +36,12 @@ class HCaptchaTypeTest extends TypeTestCase
 
     public function test_The_form_type_compiles_and_gets_the_correct_data()
     {
-        $expected = new HCaptchaResponse('response', 'remoteip');
+        $expected = new HCaptchaResponse('response', 'remoteip', 'sitekey');
+
+        $this->valueFetcher->expects($this->any())
+                           ->method('setSiteKey')
+                           ->with(self::SITE_KEY);
+
         $this->valueFetcher->expects($this->any())
                            ->method('reverseTransform')
                            ->willReturn($expected);

@@ -5,6 +5,8 @@ namespace MeteoConcept\HCaptchaBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -48,6 +50,16 @@ class HCaptchaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->addModelTransformer($this->valueFetcher);
+
+        $builder->addEventListener(FormEvents::PRE_SUBMIT,
+            function (FormEvent $event)
+            {
+                $form = $event->getForm();
+                $this->valueFetcher->setSiteKey(
+                    $form->getConfig()->getOption('hcaptcha_site_key')
+                );
+            }
+        );
     }
 
     public function buildView(FormView $view, FormInterface $form, array $options)
