@@ -1,5 +1,7 @@
 <?php
 
+namespace MeteoConcept\HCaptchaBundle\Tests\Units;
+
 use Matthias\SymfonyDependencyInjectionTest\PhpUnit\AbstractExtensionTestCase;
 
 use MeteoConcept\HCaptchaBundle\DependencyInjection\MeteoConceptHCaptchaExtension;

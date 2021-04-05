@@ -1,6 +1,6 @@
 <?php
 
-namespace MeteoConcept\HCaptchaBundle\Tests\Service;
+namespace MeteoConcept\HCaptchaBundle\Tests\Units\Service;
 
 use PHPUnit\Framework\TestCase;
 

@@ -11,9 +11,6 @@
         <testsuite name="unit_tests">
             <directory>Tests/Units</directory>
         </testsuite>
-        <testsuite name="functional_tests">
-            <directory>Tests/Functional</directory>
-        </testsuite>
     </testsuites>
 
     <filter>
@@ -27,16 +24,11 @@
         </whitelist>
     </filter>
 
-    <extensions>
-        <extension class="Symfony\Component\Panther\ServerExtension" />
-    </extensions>
-
     <listeners>
         <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
     </listeners>
 
     <php>
-        <env name="KERNEL_CLASS" value="MeteoConcept\HCaptchaBundle\Tests\Functional\AppKernel"/>
         <env name="APP_ENV" value="test"/>
     </php>
 </phpunit>

@@ -1,6 +1,6 @@
 <?php
 
-namespace MeteoConcept\HCaptchaBundle\Tests;
+namespace MeteoConcept\HCaptchaBundle\Tests\Units;
 
 use Nyholm\BundleTest\BaseBundleTestCase;
 

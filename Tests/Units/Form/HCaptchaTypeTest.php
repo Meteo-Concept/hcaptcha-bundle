@@ -1,6 +1,6 @@
 <?php
 
-namespace MeteoConcept\HCaptchaBundle\Tests\Form;
+namespace MeteoConcept\HCaptchaBundle\Tests\Units\Form;
 
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Form\PreloadedExtension;

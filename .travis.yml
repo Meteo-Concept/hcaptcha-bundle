@@ -1,4 +1,8 @@
 language: php
+
+addons:
+    firefox: latest
+
 cache:
     directories:
         - $HOME/.composer/cache/files
@@ -7,38 +11,45 @@ cache:
 env:
     global:
         - PHPUNIT_FLAGS="-v --testdox"
+        - PHPUNIT_FLAGS_UNIT_TESTS_ONLY="-v --testdox --configuration phpunit_unit_tests_only.xml.dist"
         - SYMFONY_PHPUNIT_DIR="$HOME/symfony-bridge/.phpunit"
         - SYMFONY_DEPRECATIONS_HELPER="max[total]=999999&max[direct]=0"
+        - FUNCTIONAL_TESTS_DEPENDENCIES="symfony/browser-kit:^5.2 symfony/css-selector:^5.2 symfony/framework-bundle:^5.2 symfony/twig-bundle:^5.2 symfony/panther:^1"
 
 jobs:
     fast_finish: true
     include:
           # Test the latest stable release
         - php: 7.4
-          env: XDEBUG_MODE=coverage COVERAGE=true PHPUNIT_FLAGS="-v --testsuite main --coverage-text --coverage-clover=build/coverage.xml"  DEPENDENCIES="symfony/http-client"
+          env: XDEBUG_MODE=coverage COVERAGE=true PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY} --coverage-text --coverage-clover=build/coverage.xml"  DEPENDENCIES="symfony/http-client"
         - php: 8.0
-          env: XDEBUG_MODE=coverage COVERAGE=true PHPUNIT_FLAGS="-v --testsuite main --coverage-text --coverage-clover=build/coverage.xml"  DEPENDENCIES="symfony/http-client"
+          env: XDEBUG_MODE=coverage COVERAGE=true PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY} --coverage-text --coverage-clover=build/coverage.xml"  DEPENDENCIES="symfony/http-client"
 
+          # Functional tests are only available for Symfony 5+
         - php: 7.4
-          env: DEPENDENCIES="dunglas/symfony-lock:^3 guzzlehttp/guzzle:^7"
+          env: PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY}" DEPENDENCIES="dunglas/symfony-lock:^3 guzzlehttp/guzzle:^7"
         - php: 7.4
-          env: DEPENDENCIES="dunglas/symfony-lock:^4 symfony/http-client"
+          env: PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY}" DEPENDENCIES="dunglas/symfony-lock:^4 symfony/http-client"
         - php: 7.4
-          env: DEPENDENCIES="symfony/http-client"
+          env: DEPENDENCIES="symfony/http-client ${FUNCTIONAL_TESTS_DEPENDENCIES}"
 
           # Latest commit to master
         - php: 7.2
-          env: STABILITY="dev" DEPENDENCIES="symfony/http-client"
+          env: STABILITY="dev" DEPENDENCIES="symfony/http-client ${FUNCTIONAL_TESTS_DEPENDENCIES}"
         - php: 7.4
-          env: STABILITY="dev" DEPENDENCIES="symfony/http-client"
+          env: STABILITY="dev" DEPENDENCIES="symfony/http-client ${FUNCTIONAL_TESTS_DEPENDENCIES}"
         - php: 8.0
-          env: STABILITY="dev" DEPENDENCIES="symfony/http-client"
+          env: STABILITY="dev" DEPENDENCIES="symfony/http-client ${FUNCTIONAL_TESTS_DEPENDENCIES}"
 
     allow_failures:
           # Dev-master is allowed to fail.
-        - env: STABILITY="dev" DEPENDENCIES="symfony/http-client"
+        - env: STABILITY="dev" DEPENDENCIES="symfony/http-client ${FUNCTIONAL_TESTS_DEPENDENCIES}"
 
 before_install:
+    - wget https://github.com/mozilla/geckodriver/releases/download/v0.29.0/geckodriver-v0.29.0-linux64.tar.gz
+    - mkdir geckodriver
+    - tar -xzf geckodriver-v0.29.0-linux64.tar.gz -C geckodriver
+    - export PATH=$PATH:$PWD/geckodriver
     - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || true; fi
     - if ! [ -z "$STABILITY" ]; then composer config minimum-stability ${STABILITY}; fi;
     - composer require --no-update ${DEPENDENCIES}

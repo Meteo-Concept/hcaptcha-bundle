@@ -1,6 +1,6 @@
 <?php
 
-namespace MeteoConcept\HCaptchaBundle\Tests\Validator\Constraints;
+namespace MeteoConcept\HCaptchaBundle\Tests\Units\Validator\Constraints;
 
 use PHPUnit\Framework\TestCase;
 

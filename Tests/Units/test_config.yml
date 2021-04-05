@@ -8,5 +8,5 @@ services:
 
 meteo_concept_h_captcha:
     hcaptcha:
-        site_key: 10000000-ffff-ffff-ffff-000000000001
-        secret: 0x0000000000000000000000000000000000000000
+        site_key: '10000000-ffff-ffff-ffff-000000000001'
+        secret: '0x0000000000000000000000000000000000000000'

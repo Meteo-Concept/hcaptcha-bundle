@@ -1,0 +1,8 @@
+default:
+    path: '/form'
+    controller: MeteoConcept\HCaptchaBundle\Tests\Functional\BasicController::form
+
+ok:
+    path: '/ok/{value}'
+    controller: MeteoConcept\HCaptchaBundle\Tests\Functional\BasicController::ok
+

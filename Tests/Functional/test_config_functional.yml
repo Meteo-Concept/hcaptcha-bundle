@@ -1,0 +1,34 @@
+services:
+    Psr\Http\Client\ClientInterface:
+        class: Symfony\Component\HttpClient\Psr18Client
+    Psr\Http\Message\RequestFactoryInterface:
+        class: Nyholm\Psr7\Factory\Psr17Factory
+    Psr\Http\Message\StreamFactoryInterface:
+        class: Nyholm\Psr7\Factory\Psr17Factory
+
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    MeteoConcept\HCaptchaBundle\Tests\Functional\BasicController:
+        tags: ['controller.service_arguments']
+
+meteo_concept_h_captcha:
+    hcaptcha:
+        site_key: '10000000-ffff-ffff-ffff-000000000001'
+        secret: '0x0000000000000000000000000000000000000000'
+
+framework:
+    secret: test
+    test: true
+    session:
+        storage_id: session.storage.mock_file
+    router:
+        utf8: true
+        resource: '%kernel.project_dir%/Tests/Functional/test_routes.yaml'
+    profiler: { enabled: true, collect: true }
+
+twig:
+    default_path: '%kernel.project_dir%/Tests/Functional/templates'
+    form_themes:
+        - '@MeteoConceptHCaptcha/hcaptcha_form.html.twig'

@@ -1,6 +1,6 @@
 <?php
 
-namespace MeteoConcept\HCaptchaBundle\Tests\Form\DataTransformer;
+namespace MeteoConcept\HCaptchaBundle\Tests\Units\Form\DataTransformer;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
