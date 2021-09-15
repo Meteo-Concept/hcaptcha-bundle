@@ -168,3 +168,8 @@ Updates and breaking changes
 
 - In major version 2, support for PHP7.1 has been dropped and support for PHP8.0
 added.
+
+- In major version 3:
+  - support for PHP <7.4 has been dropped
+  - support for Symfony <5.3 has been dropped
+  - support for Symfony 6.0 will be added eventually
