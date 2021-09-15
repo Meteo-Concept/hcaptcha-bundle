@@ -32,7 +32,7 @@ class HCaptchaValueFetcherTest extends TestCase
             'h-captcha-value=some_response'
         );
         $this->requestStack->expects($this->any())
-                           ->method('getMasterRequest')
+                           ->method('getMainRequest')
                            ->willReturn($this->request);
 
         $this->noCaptchaRequestStack = $this->createMock(RequestStack::class);
@@ -46,7 +46,7 @@ class HCaptchaValueFetcherTest extends TestCase
             ''
         );
         $this->noCaptchaRequestStack->expects($this->any())
-                           ->method('getMasterRequest')
+                           ->method('getMainRequest')
                            ->willReturn($this->noCaptchaRequest);
     }
 
