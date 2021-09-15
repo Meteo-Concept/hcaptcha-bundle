@@ -1,4 +1,4 @@
-HCaptcha bundle for Symfony 3+ [![Build Status](https://travis-ci.org/Meteo-Concept/hcaptcha-bundle.svg?branch=master)](https://travis-ci.org/Meteo-Concept/hcaptcha-bundle)
+HCaptcha bundle for Symfony 3+ [![Build Status](https://api.travis-ci.com/Meteo-Concept/hcaptcha-bundle.svg?branch=master)](https://travis-ci.com/Meteo-Concept/hcaptcha-bundle)
 ============
 
 This bundle brings into your Symfony website a new Form type, namely
