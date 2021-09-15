@@ -27,6 +27,8 @@ jobs:
 
         - php: 7.4
           env: DEPENDENCIES="symfony/http-client ${FUNCTIONAL_TESTS_DEPENDENCIES}"
+        - php: 8.0
+          env: DEPENDENCIES="symfony/http-client ${FUNCTIONAL_TESTS_DEPENDENCIES}"
 
           # Latest commit to master
         - php: 7.4
