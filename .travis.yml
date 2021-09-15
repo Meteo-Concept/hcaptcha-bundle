@@ -25,17 +25,10 @@ jobs:
         - php: 8.0
           env: XDEBUG_MODE=coverage COVERAGE=true PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY} --coverage-text --coverage-clover=build/coverage.xml"  DEPENDENCIES="symfony/http-client"
 
-          # Functional tests are only available for Symfony 5+
-        - php: 7.4
-          env: PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY}" DEPENDENCIES="dunglas/symfony-lock:^3 guzzlehttp/guzzle:^7"
-        - php: 7.4
-          env: PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY}" DEPENDENCIES="dunglas/symfony-lock:^4 symfony/http-client"
         - php: 7.4
           env: DEPENDENCIES="symfony/http-client ${FUNCTIONAL_TESTS_DEPENDENCIES}"
 
           # Latest commit to master
-        - php: 7.2
-          env: STABILITY="dev" DEPENDENCIES="symfony/http-client ${FUNCTIONAL_TESTS_DEPENDENCIES}"
         - php: 7.4
           env: STABILITY="dev" DEPENDENCIES="symfony/http-client ${FUNCTIONAL_TESTS_DEPENDENCIES}"
         - php: 8.0
