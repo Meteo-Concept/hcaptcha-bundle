@@ -14,7 +14,7 @@ env:
         - PHPUNIT_FLAGS_UNIT_TESTS_ONLY="-v --testdox --configuration phpunit_unit_tests_only.xml.dist"
         - SYMFONY_PHPUNIT_DIR="$HOME/symfony-bridge/.phpunit"
         - SYMFONY_DEPRECATIONS_HELPER="max[total]=999999&max[direct]=0"
-        - FUNCTIONAL_TESTS_DEPENDENCIES="symfony/browser-kit:^5.2 symfony/css-selector:^5.2 symfony/framework-bundle:^5.2 symfony/twig-bundle:^5.2 symfony/panther:^1"
+        - FUNCTIONAL_TESTS_DEPENDENCIES="symfony/browser-kit:^5 symfony/css-selector:^5 symfony/framework-bundle:^5 symfony/twig-bundle:^5 symfony/panther:^1"
 
 jobs:
     fast_finish: true
