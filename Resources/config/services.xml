@@ -31,7 +31,7 @@
             <argument type="string"></argument> <!-- validation mode: strict or lax -->
         </service>
 
-        <service id="MeteoConcept\HCaptchaBundle\Validator\Constraints\IsAValidCaptchaValidator"
+        <service id="MeteoConcept\HCaptchaBundle\Validator\Constraints\IsValidCaptchaValidator"
             alias="meteo_concept_h_captcha.captcha_validator"
             public="false">
         </service>
