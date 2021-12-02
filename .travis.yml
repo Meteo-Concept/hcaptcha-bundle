@@ -21,17 +21,17 @@ jobs:
     include:
           # Test the latest stable release
         - php: 7.4
-          env: XDEBUG_MODE=coverage COVERAGE=true PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY} --coverage-text --coverage-clover=build/coverage.xml"  DEPENDENCIES="symfony/http-client:^5" SYMFONY_REQUIRE="5.4.*"
+          env: STABILITY="stable" XDEBUG_MODE=coverage COVERAGE=true PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY} --coverage-text --coverage-clover=build/coverage.xml"  DEPENDENCIES="symfony/http-client:^5" SYMFONY_REQUIRE="5.4.*"
         - php: 8.0
-          env: XDEBUG_MODE=coverage COVERAGE=true PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY} --coverage-text --coverage-clover=build/coverage.xml"  DEPENDENCIES="symfony/http-client:^5" SYMFONY_REQUIRE="5.4.*"
+          env: STABILITY="stable" XDEBUG_MODE=coverage COVERAGE=true PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY} --coverage-text --coverage-clover=build/coverage.xml"  DEPENDENCIES="symfony/http-client:^5" SYMFONY_REQUIRE="5.4.*"
 
           # Functional tests are only available for Symfony 5+
         - php: 7.4
-          env: PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY}" DEPENDENCIES="guzzlehttp/guzzle:^7" SYMFONY_REQUIRE="3.4.*"
+          env: STABILITY="stable" PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY}" DEPENDENCIES="guzzlehttp/guzzle:^7" SYMFONY_REQUIRE="3.4.*"
         - php: 7.4
-          env: PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY}" DEPENDENCIES="symfony/http-client:^4" SYMFONY_REQUIRE="4.4.*"
+          env: STABILITY="stable" PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY}" DEPENDENCIES="symfony/http-client:^4" SYMFONY_REQUIRE="4.4.*"
         - php: 7.4
-          env: DEPENDENCIES="symfony/http-client:^5 ${FUNCTIONAL_TESTS_DEPENDENCIES}" SYMFONY_REQUIRE="5.4.*"
+          env: STABILITY="stable" DEPENDENCIES="symfony/http-client:^5 ${FUNCTIONAL_TESTS_DEPENDENCIES}" SYMFONY_REQUIRE="5.4.*"
 
     allow_failures:
       # Latest commit to master
