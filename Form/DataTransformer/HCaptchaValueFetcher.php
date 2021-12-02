@@ -56,6 +56,7 @@ class HCaptchaValueFetcher implements DataTransformerInterface
 
     /**
      * @inheritdoc
+     * @return mixed
      */
     public function transform($value)
     {
@@ -69,6 +70,7 @@ class HCaptchaValueFetcher implements DataTransformerInterface
 
     /**
      * @inheritdoc
+     * @return mixed
      */
     public function reverseTransform($value)
     {
