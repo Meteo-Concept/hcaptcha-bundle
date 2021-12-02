@@ -30,7 +30,7 @@ class MeteoConceptHCaptchaExtension extends Extension
         $formtype->replaceArgument(1, $config['validation']);
     }
 
-    public function getNamespace()
+    public function getNamespace(): string
     {
         return 'http://www.meteo-concept.fr/schema/dic/hcaptcha';
     }
