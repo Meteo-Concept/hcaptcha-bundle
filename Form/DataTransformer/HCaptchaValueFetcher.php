@@ -54,6 +54,9 @@ class HCaptchaValueFetcher implements DataTransformerInterface
         $this->siteKey = $siteKey;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function transform($value)
     {
         /*
@@ -64,6 +67,9 @@ class HCaptchaValueFetcher implements DataTransformerInterface
         return null;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function reverseTransform($value)
     {
         /*

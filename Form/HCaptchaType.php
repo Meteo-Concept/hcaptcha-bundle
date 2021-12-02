@@ -73,7 +73,7 @@ class HCaptchaType extends AbstractType
         return "hcaptcha";
     }
 
-    public function getParent()
+    public function getParent(): ?string
     {
         // Take TextareaType as the parent because the hCaptcha widget kind of
         // takes up the same amount of space in a form (it's a rectangular box...)

@@ -12,7 +12,7 @@ use MeteoConcept\HCaptchaBundle\Validator\Constraints\IsValidCaptchaValidator;
 
 class BundleInitializationTest extends BaseBundleTestCase
 {
-    protected function getBundleClass()
+    protected function getBundleClass(): string
     {
         return MeteoConceptHCaptchaBundle::class;
     }
