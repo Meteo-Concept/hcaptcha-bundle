@@ -23,14 +23,14 @@ jobs:
     include:
           # Test the latest stable release
         - php: 7.4
-          env: XDEBUG_MODE=coverage COVERAGE=true PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY} --coverage-text --coverage-clover=build/coverage.xml"  DEPENDENCIES="${COMMON_DEPENDENCIES}"
+          env: STABILITY="stable" XDEBUG_MODE=coverage COVERAGE=true PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY} --coverage-text --coverage-clover=build/coverage.xml"  DEPENDENCIES="${COMMON_DEPENDENCIES}"
         - php: 8.0
-          env: XDEBUG_MODE=coverage COVERAGE=true PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY} --coverage-text --coverage-clover=build/coverage.xml"  DEPENDENCIES="${COMMON_DEPENDENCIES}"
+          env: STABILITY="stable" XDEBUG_MODE=coverage COVERAGE=true PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY} --coverage-text --coverage-clover=build/coverage.xml"  DEPENDENCIES="${COMMON_DEPENDENCIES}"
 
         - php: 7.4
-          env: DEPENDENCIES="${COMMON_DEPENDENCIES} ${FUNCTIONAL_TESTS_DEPENDENCIES}"
+          env: STABILITY="stable" DEPENDENCIES="${COMMON_DEPENDENCIES} ${FUNCTIONAL_TESTS_DEPENDENCIES}"
         - php: 8.0
-          env: DEPENDENCIES="${COMMON_DEPENDENCIES} ${FUNCTIONAL_TESTS_DEPENDENCIES}"
+          env: STABILITY="stable" DEPENDENCIES="${COMMON_DEPENDENCIES} ${FUNCTIONAL_TESTS_DEPENDENCIES}"
 
     allow_failures:
           # Latest commit to master
@@ -46,11 +46,11 @@ before_install:
     - export PATH=$PATH:$PWD/geckodriver
     - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || true; fi
     - if ! [ -z "$STABILITY" ]; then composer config minimum-stability ${STABILITY}; fi;
-    - composer global require symfony/flex
+    - composer global require symfony/flex --prefer-dist --no-interaction
+    - composer require ${DEPENDENCIES} --prefer-dist --no-interaction
 
 install:
     - composer update --prefer-dist --no-interaction
-    - composer require ${DEPENDENCIES} --no-interaction
     - ./vendor/bin/simple-phpunit install
 
 script:
