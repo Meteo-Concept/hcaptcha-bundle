@@ -12,7 +12,7 @@ class SubmitFormWebTest extends PantherTestCase
     public function testEverythingCompilesAndAppRuns()
     {
         $client = self::bootKernel();
-        $this->assertNotNull(self::$container);
+        $this->assertNotNull($client->getContainer());
     }
 
     public function testFormIsBuiltAndDisplayed()

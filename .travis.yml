@@ -16,28 +16,35 @@ env:
         - SYMFONY_DEPRECATIONS_HELPER="max[total]=999999&max[direct]=0"
         - FUNCTIONAL_TESTS_DEPENDENCIES="symfony/browser-kit:^5 symfony/css-selector:^5 symfony/framework-bundle:^5 symfony/twig-bundle:^5 symfony/panther:^1"
         - COMMON_DEPENDENCIES="symfony/http-client:^5"
-        - SYMFONY_REQUIRE="5.4.*"
 
 jobs:
     fast_finish: true
     include:
           # Test the latest stable release
         - php: 7.4
-          env: STABILITY="stable" XDEBUG_MODE=coverage COVERAGE=true PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY} --coverage-text --coverage-clover=build/coverage.xml"  DEPENDENCIES="${COMMON_DEPENDENCIES}"
+          env: STABILITY="stable" XDEBUG_MODE=coverage COVERAGE=true PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY} --coverage-text --coverage-clover=build/coverage.xml"  DEPENDENCIES="${COMMON_DEPENDENCIES}" SYMFONY_REQUIRE="5.4.*"
         - php: 8.0
-          env: STABILITY="stable" XDEBUG_MODE=coverage COVERAGE=true PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY} --coverage-text --coverage-clover=build/coverage.xml"  DEPENDENCIES="${COMMON_DEPENDENCIES}"
+          env: STABILITY="stable" XDEBUG_MODE=coverage COVERAGE=true PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY} --coverage-text --coverage-clover=build/coverage.xml"  DEPENDENCIES="${COMMON_DEPENDENCIES}" SYMFONY_REQUIRE="5.4.*"
 
         - php: 7.4
-          env: STABILITY="stable" DEPENDENCIES="${COMMON_DEPENDENCIES} ${FUNCTIONAL_TESTS_DEPENDENCIES}"
+          env: STABILITY="stable" DEPENDENCIES="${COMMON_DEPENDENCIES} ${FUNCTIONAL_TESTS_DEPENDENCIES}" SYMFONY_REQUIRE="5.4.*"
         - php: 8.0
-          env: STABILITY="stable" DEPENDENCIES="${COMMON_DEPENDENCIES} ${FUNCTIONAL_TESTS_DEPENDENCIES}"
+          env: STABILITY="stable" DEPENDENCIES="${COMMON_DEPENDENCIES} ${FUNCTIONAL_TESTS_DEPENDENCIES}" SYMFONY_REQUIRE="5.4.*"
+
+          # Version 6.*
+        - php: 8.0
+          env: STABILITY="stable" DEPENDENCIES="symfony/http-client:^6 symfony/browser-kit:^6 symfony/css-selector:^6 symfony/framework-bundle:^6 symfony/twig-bundle:^6 symfony/panther:^2" SYMFONY_REQUIRE="6.*"
 
     allow_failures:
           # Latest commit to master
         - php: 7.4
-          env: STABILITY="dev" DEPENDENCIES="${COMMON_DEPENDENCIES} ${FUNCTIONAL_TESTS_DEPENDENCIES}"
+          env: STABILITY="dev" DEPENDENCIES="${COMMON_DEPENDENCIES} ${FUNCTIONAL_TESTS_DEPENDENCIES}" SYMFONY_REQUIRE="5.4.*"
         - php: 8.0
-          env: STABILITY="dev" DEPENDENCIES="${COMMON_DEPENDENCIES} ${FUNCTIONAL_TESTS_DEPENDENCIES}"
+          env: STABILITY="dev" DEPENDENCIES="${COMMON_DEPENDENCIES} ${FUNCTIONAL_TESTS_DEPENDENCIES}" SYMFONY_REQUIRE="5.4.*"
+
+          # Version 6.*
+        - php: 8.0
+          env: STABILITY="dev" DEPENDENCIES="symfony/http-client:^6 symfony/browser-kit:^6 symfony/css-selector:^6 symfony/framework-bundle:^6 symfony/twig-bundle:^6 symfony/panther:^2" SYMFONY_REQUIRE="6.*"
 
 before_install:
     - wget https://github.com/mozilla/geckodriver/releases/download/v0.29.0/geckodriver-v0.29.0-linux64.tar.gz
@@ -47,7 +54,7 @@ before_install:
     - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || true; fi
     - if ! [ -z "$STABILITY" ]; then composer config minimum-stability ${STABILITY}; fi;
     - composer global require symfony/flex --prefer-dist --no-interaction
-    - composer require ${DEPENDENCIES} --prefer-dist --no-interaction
+    - composer require --with-all-dependencies ${DEPENDENCIES} --prefer-dist --no-interaction
 
 install:
     - composer update --prefer-dist --no-interaction
