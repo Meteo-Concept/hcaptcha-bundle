@@ -1,13 +1,14 @@
-HCaptcha bundle for Symfony 3+ [![Build Status](https://api.travis-ci.com/Meteo-Concept/hcaptcha-bundle.svg?branch=master)](https://travis-ci.com/Meteo-Concept/hcaptcha-bundle)
+HCaptcha bundle for Symfony 3+ [![Build Status v2](https://api.travis-ci.com/Meteo-Concept/hcaptcha-bundle.svg?branch=master)](https://api.travis-ci.com/Meteo-Concept/hcaptcha-bundle.svg?branch=master) [![Build Status v3](https://api.travis-ci.com/Meteo-Concept/hcaptcha-bundle.svg?branch=v3)](https://api.travis-ci.com/Meteo-Concept/hcaptcha-bundle.svg?branch=v3)
 ============
 
 This bundle brings into your Symfony website a new Form type, namely
 HCaptchaType, that is used to display and validate a CAPTCHA served by
 https://www.hcaptcha.com.
 
-This bundle is tested for Symfony major versions 3, 4 and 5. It works
-with PHP 7.1 but if you want to run the tests the dev dependencies
-require PHP 7.2+.
+This bundle is tested for Symfony major versions 3, 4, 5 and 6.
+Major version 2 works for Symfony 3 and 4, with PHP 7.2+ ;
+major version 3 for Symfony 5 and 6 with PHP 7.4 or 8.x. The test
+dependencies requirements can be more stringent.
 
 Installation
 ----------
@@ -29,7 +30,7 @@ implementation for these, composer will complain that the bundle is not
 installable. In this case, you have to provide a real implementation at the
 same time as the bundle.
 
-For instance, for Symfony 4 and 5:
+For instance, for Symfony 4, 5, and 6:
 
 ```console
 $ composer require meteo-concept/hcaptcha-bundle symfony/http-client nyholm/psr7
@@ -117,6 +118,20 @@ twig:
         - ...
 ```
 
+If you use Guzzle or another HTTP library, you may also need a configuration
+for that bundle and its services. For instance, for Guzzle, you probably need
+the following in `services.yaml`:
+
+```yaml
+services:
+    Psr\Http\Client\ClientInterface:
+        class: GuzzleHttp\Client
+    Psr\Http\Message\RequestFactoryInterface:
+        class: Nyholm\Psr7\Factory\Psr17Factory
+    Psr\Http\Message\StreamFactoryInterface:
+        class: Nyholm\Psr7\Factory\Psr17Factory
+ ```
+
 Usage
 ------
 
@@ -168,3 +183,5 @@ Updates and breaking changes
 
 - In major version 2, support for PHP7.1 has been dropped and support for PHP8.0
 added.
+- In major version 3, support for PHP<7.4 and Symfony<5 has been dropped, support
+for Symfony 5 and 6 has been added. 
