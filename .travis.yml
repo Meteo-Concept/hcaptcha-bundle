@@ -53,6 +53,7 @@ before_install:
     - export PATH=$PATH:$PWD/geckodriver
     - if [[ $COVERAGE != true ]]; then phpenv config-rm xdebug.ini || true; fi
     - if ! [ -z "$STABILITY" ]; then composer config minimum-stability ${STABILITY}; fi;
+    - composer global config --no-interaction --no-plugins allow-plugins.symfony/flex true
     - composer global require symfony/flex --prefer-dist --no-interaction
     - composer require --with-all-dependencies ${DEPENDENCIES} --prefer-dist --no-interaction
 
