@@ -3,10 +3,9 @@
 namespace MeteoConcept\HCaptchaBundle\Form;
 
 /**
- * @brief Stores the values put in the POST request by hCaptcha
+ * Stores the values put in the POST request by hCaptcha
  *
- * This class is mostly there for type safety. It's used both by the
- * HCaptchaFormType and the IsValidCaptcha constraint.
+ * This class is mostly there for type safety. It's used both by the HCaptchaFormType and the IsValidCaptcha constraint.
  */
 final class HCaptchaResponse
 {
@@ -29,8 +28,7 @@ final class HCaptchaResponse
     private $siteKey;
 
     /**
-     * @brief Constructs an immutable instance of HCaptchaResponse from a
-     * hCaptcha response and a user's IP address
+     * Constructs an immutable instance of HCaptchaResponse from a hCaptcha response and a user's IP address
      *
      * @param $response string The user's response to the CAPTCHA
      * challenge
@@ -44,7 +42,7 @@ final class HCaptchaResponse
     }
 
     /**
-     * @brief Gets the CAPTCHA challenge response
+     * Gets the CAPTCHA challenge response
      *
      * @return string The CAPTCHA challenge response set at the construction of
      * the instance
@@ -55,7 +53,7 @@ final class HCaptchaResponse
     }
 
     /**
-     * @brief Gets the user's IP address
+     * Gets the user's IP address
      *
      * @return string|null The user's IP address set at the construction of the
      * instance
@@ -66,7 +64,7 @@ final class HCaptchaResponse
     }
 
     /**
-     * @brief Gets the hCaptcha site key
+     * Gets the hCaptcha site key
      *
      * @return string|null The hCaptcha site key configured for the form, to be
      * sent back in the hCaptcha verification request

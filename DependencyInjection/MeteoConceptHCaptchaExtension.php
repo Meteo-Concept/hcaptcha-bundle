@@ -8,7 +8,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 
 /**
- * @brief The bundle extension class, used to load the configuration
+ * The bundle extension class, used to load the configuration
  */
 class MeteoConceptHCaptchaExtension extends Extension
 {

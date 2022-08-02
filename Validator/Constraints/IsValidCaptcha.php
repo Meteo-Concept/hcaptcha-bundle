@@ -5,7 +5,7 @@ namespace MeteoConcept\HCaptchaBundle\Validator\Constraints;
 use Symfony\Component\Validator\Constraint;
 
 /**
- * @brief Screams when the user has failed to solve the CAPTCHA
+ * Screams when the user has failed to solve the CAPTCHA
  * @Annotation
  * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
  */

@@ -49,7 +49,7 @@ class HCaptchaVerifier
     const HCAPTCHA_VERIFY_URL = 'https://hcaptcha.com/siteverify';
 
     /**
-     * @brief Constructs the validator from injected dependencies
+     * Constructs the validator from injected dependencies
      *
      * @param ClientInterface $client The PSR-18 HTTP client service to make the
      * API call to hCaptcha

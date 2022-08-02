@@ -6,10 +6,9 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * @brief The configuration class for the bundle, fairly straightforward
+ * The configuration class for the bundle, fairly straightforward
  *
- * The hCaptcha site key and secret are inside a 'hcaptcha' key in case we
- * need more configuration unrelated to hCaptcha later.
+ * The hCaptcha site key and secret are inside a 'hcaptcha' key in case we need more configuration unrelated to hCaptcha later.
  */
 class Configuration implements ConfigurationInterface
 {

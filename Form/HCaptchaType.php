@@ -16,13 +16,12 @@ use MeteoConcept\HCaptchaBundle\Form\DataTransformer\HCaptchaValueFetcher;
 use MeteoConcept\HCaptchaBundle\Validator\Constraints\IsValidCaptcha;
 
 /**
- * @brief A form type that represents a hCaptcha field/widget that the user
- * must solve before submitting the form
+ * A form type that represents a hCaptcha field/widget that the user must solve before submitting the form
  */
 class HCaptchaType extends AbstractType
 {
     /**
-     * @var HCaptchValueFetcher The data transformer used to get the CAPTCHA
+     * @var HCaptchaValueFetcher The data transformer used to get the CAPTCHA
      * response
      */
     private $valueFetcher;
@@ -33,7 +32,7 @@ class HCaptchaType extends AbstractType
     private $hcaptchaSiteKey;
 
     /**
-     * @brief Constructs the form type from injected dependencies
+     * Constructs the form type from injected dependencies
      *
      * @param HCaptchaValueFetcher $hcaptchaValueFetcher An instance of the
      * HCaptchaValueFetcher service

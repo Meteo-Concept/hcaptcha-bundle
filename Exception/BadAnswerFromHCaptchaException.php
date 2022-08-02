@@ -3,9 +3,8 @@
 namespace MeteoConcept\HCaptchaBundle\Exception;
 
 /**
- * @brief An exception representing a bad answer from the hCaptcha API
- * (either no response, or HTTP code !== 200, or response body not looking
- * like the specification, etc.)
+ * An exception representing a bad answer from the hCaptcha API
+ * (either no response, or HTTP code !== 200, or response body not looking like the specification, etc.)
  */
 class BadAnswerFromHCaptchaException extends \RuntimeException
 {

@@ -8,8 +8,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use MeteoConcept\HCaptchaBundle\Form\HCaptchaResponse;
 
 /**
- * @brief A weird data transformer that actually does not act on the
- * field value but on a specific POST variables in the request
+ * A weird data transformer that actually does not act on the field value but on a specific POST variables in the request
  */
 class HCaptchaValueFetcher implements DataTransformerInterface
 {
@@ -26,8 +25,7 @@ class HCaptchaValueFetcher implements DataTransformerInterface
     protected $siteKey;
 
     /**
-     * @brief Constructs an instance of the HCaptchaValueFetcher from
-     * injected dependencies
+     * Constructs an instance of the HCaptchaValueFetcher from injected dependencies
      *
      * This class does nothing useful when displaying the form, it's
      * only useful on a POST request, when the form is submitted.
@@ -41,8 +39,7 @@ class HCaptchaValueFetcher implements DataTransformerInterface
     }
 
     /**
-     * @brief Set the hCaptcha site key configured for the form to which this
-     * data transformer is attached
+     * Set the hCaptcha site key configured for the form to which this data transformer is attached
      *
      * This site key is then embedded into the value of the hCaptcha form widget
      * in order to be sent to hCaptcha as pert of the verification request.

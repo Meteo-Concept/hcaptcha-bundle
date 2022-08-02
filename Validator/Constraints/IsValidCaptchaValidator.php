@@ -12,7 +12,7 @@ use MeteoConcept\HCaptchaBundle\Form\HCaptchaResponse;
 use MeteoConcept\HCaptchaBundle\Service\HCaptchaVerifier;
 
 /**
- * @brief Validates a CAPTCHA using the hCaptcha API
+ * Validates a CAPTCHA using the hCaptcha API
  *
  * The value that the validator works with must be an instance of
  * HCaptchaResponse, such as the one built by
@@ -45,7 +45,7 @@ class IsValidCaptchaValidator extends ConstraintValidator
     private $validation;
 
     /**
-     * @brief Constructs the validator from injected dependencies
+     * Constructs the validator from injected dependencies
      *
      * @param HCaptchaVerifier $verifier The service that sends the verification
      * request to the hCaptcha endpoint
