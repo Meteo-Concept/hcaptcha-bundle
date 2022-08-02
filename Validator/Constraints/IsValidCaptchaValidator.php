@@ -91,8 +91,7 @@ class IsValidCaptchaValidator extends ConstraintValidator
          * violation right away.
          */
         if ("" === $value->getResponse()) {
-            $this->context->buildViolation($constraint->message)
-                 ->addViolation();
+            $this->setAsInvalid($constraint);
             return;
         }
 
