@@ -11,6 +11,10 @@ use Psr\Log\LoggerInterface;
 use MeteoConcept\HCaptchaBundle\Exception\BadAnswerFromHCaptchaException;
 use MeteoConcept\HCaptchaBundle\Form\HCaptchaResponse;
 
+/**
+ * A service able to communicate with the HCaptcha API to send a submitted
+ * CAPTCHA for verification, parse the answer, and pass it on to the caller
+ */
 class HCaptchaVerifier
 {
     /**
@@ -73,6 +77,22 @@ class HCaptchaVerifier
         $this->logger = $logger;
     }
 
+    /**
+     * Verifies a submitted hCaptcha
+     *
+     * This method takes a HCaptchaResponse object (typically constructed by the
+     * HCaptchaValueFetcher data transformer from a HCaptcha field in a form),
+     * sends the appropriate data to the HCaptcha API, receive the answer from
+     * said API, parses it and tells whether the user has validated the CAPTCHA.
+     *
+     * @param HCaptchaResponse $value A CAPTCHA submitted by a user
+     * @param string &$output An optional output string where the entire
+     * response from the API will be dumped, if not null
+     * @return true if, and only if, the HCaptcha service has signaled the
+     * CAPTCHA as valid
+     * @throws BadAnswerFromHCaptchaException Thrown if the HCaptcha API has
+     * failed to answer in due time or if the answer is out of specification.
+     */
     public function verify(HCaptchaResponse $value, string &$output = null): bool
     {
         // Make the validation request to hCaptcha
