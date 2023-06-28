@@ -57,13 +57,13 @@ class IsValidCaptchaValidator extends ConstraintValidator
         $this->validation = $validation;
     }
 
-    private function setAsInvalid(Constraint $constraint)
+    private function setAsInvalid(Constraint $constraint): void
     {
         $this->context->buildViolation($constraint->message)
              ->addViolation();
     }
 
-    public function validate($value, Constraint $constraint)
+    public function validate($value, Constraint $constraint): void
     {
         if (!$constraint instanceof IsValidCaptcha) {
             throw new UnexpectedTypeException($constraint, IsValidCaptchaValidator::class);

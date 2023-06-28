@@ -27,6 +27,7 @@ framework:
         utf8: true
         resource: '%kernel.project_dir%/Tests/Functional/test_routes.yaml'
     profiler: { enabled: true, collect: true }
+    http_method_override: false
 
 twig:
     default_path: '%kernel.project_dir%/Tests/Functional/templates'

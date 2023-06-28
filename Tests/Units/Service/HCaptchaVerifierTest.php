@@ -16,13 +16,13 @@ use MeteoConcept\HCaptchaBundle\Exception\BadAnswerFromHCaptchaException;
 
 class HCaptchaVerifierTest extends TestCase
 {
-    private $client;
+    private Client $client;
 
-    private $hCaptchaVerifier;
+    private string $hcaptchaSecret;
 
-    private $psr17factory;
+    private HCaptchaVerifier $hCaptchaVerifier;
 
-    private $universalRequestMatcher;
+    private Psr17Factory $psr17factory;
 
     public function setUp(): void
     {

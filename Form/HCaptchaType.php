@@ -46,7 +46,7 @@ class HCaptchaType extends AbstractType
         $this->hcaptchaSiteKey = $hcaptchaSiteKey;
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addModelTransformer($this->valueFetcher);
 
@@ -61,7 +61,7 @@ class HCaptchaType extends AbstractType
         );
     }
 
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         // This is the variable that Twig can use to display the hCaptcha widget
         $view->vars['hcaptcha_site_key'] = $options['hcaptcha_site_key'];
@@ -80,7 +80,7 @@ class HCaptchaType extends AbstractType
         return TextareaType::class;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         /*
          * Set the 'mapped' option to false since CAPTCHAs are not meant to be
