@@ -1,0 +1,86 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Symfony
+
+on:
+  push:
+    branches: [ "v3" ]
+  pull_request:
+    branches: [ "v3" ]
+    
+env:
+  PHPUNIT_FLAGS: "-v --testdox"
+  SYMFONY_PHPUNIT_DIR: "$HOME/symfony-bridge/.phpunit"
+  SYMFONY_DEPRECATIONS_HELPER: "max[total]=999999&max[direct]=0"
+  COMMON_DEPENDENCIES: "symfony/http-client:^5"
+
+permissions:
+  contents: read
+
+jobs:
+  symfony-tests:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ ubuntu-latest ]
+        php: [ '7.4', '8.0', '8.1', '8.2' ]
+        symfony: [ '5.4.*', '6.*' ]
+        stability: [ stable ]
+        include:
+          - symfony: '5.4.*'
+            dependencies: "symfony/browser-kit:^5 symfony/css-selector:^5 symfony/framework-bundle:^5 symfony/twig-bundle:^5 symfony/panther:^1"
+          - symfony: '6.*'
+            dependencies: "symfony/http-client:^6 symfony/browser-kit:^6 symfony/css-selector:^6 symfony/framework-bundle:^6 symfony/twig-bundle:^6 symfony/panther:^2" 
+        exclude:
+          - php: '7.4'
+            symfony: '6.*'
+    steps:
+    #  To automatically get bug fixes and new Php versions for shivammathur/setup-php,
+    # change this to (see https://github.com/shivammathur/setup-php#bookmark-versioning):
+    # uses: shivammathur/setup-php@v2
+    - uses: shivammathur/setup-php@2cb9b829437ee246e9b3cac53555a39208ca6d28
+      with:
+        php-version: ${{ matrix.php }}
+    - uses: actions/checkout@v3
+    - name: Fetch geckodriver
+      run: wget https://github.com/mozilla/geckodriver/releases/download/v0.29.0/geckodriver-v0.29.0-linux64.tar.gz
+    - name: Prepare geckodriver directory
+      run: mkdir geckodriver
+    - name: Decompress geckodriver
+      run: tar -xzf geckodriver-v0.29.0-linux64.tar.gz -C geckodriver
+    - name: Set minimum stability
+      run: composer config minimum-stability ${{ matrix.stability }}
+    - name: Allow symfony/flex to do whatever pleases it
+      run: composer global config --no-interaction --no-plugins allow-plugins.symfony/flex true
+    - name: Select the correct Symfony distribution
+      env:
+        SYMFONY_REQUIRE: ${{ matrix.symfony }}
+      run: composer config --no-interaction --no-plugins extra.symfony.require ${{ matrix.symfony }} 
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+    - name: Install symfony/flex separately first
+      run: composer global require symfony/flex --prefer-dist --no-interaction
+    - name: Install Project Dependencies
+      env:
+        SYMFONY_REQUIRE: ${{ matrix.symfony }}
+      run: composer update --prefer-dist --no-interaction
+    - name: Install Extra Dependencies
+      run: composer require --no-interaction --prefer-dist --with-all-dependencies ${{ matrix.dependencies }}
+    - name: Setup PHPUnit
+      run: ./vendor/bin/simple-phpunit install
+    - name: Validate the whole installation
+      env:
+        SYMFONY_REQUIRE: ${{ matrix.symfony }}
+      run: composer validate --strict --no-check-lock
+    - name: Execute tests (Unit and Feature tests) via PHPUnit 
+      run: PATH="$PATH:$PWD/geckodriver" ./vendor/bin/simple-phpunit ${{ env.PHPUNIT_FLAGS }}
