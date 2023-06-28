@@ -27,6 +27,8 @@ jobs:
           env: STABILITY="stable" XDEBUG_MODE=coverage COVERAGE=true PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY} --coverage-text --coverage-clover=build/coverage.xml"  DEPENDENCIES="${COMMON_DEPENDENCIES}" SYMFONY_REQUIRE="5.4.*"
         - php: 8.1
           env: STABILITY="stable" XDEBUG_MODE=coverage COVERAGE=true PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY} --coverage-text --coverage-clover=build/coverage.xml"  DEPENDENCIES="${COMMON_DEPENDENCIES}" SYMFONY_REQUIRE="5.4.*"
+        - php: 8.2
+          env: STABILITY="stable" XDEBUG_MODE=coverage COVERAGE=true PHPUNIT_FLAGS="${PHPUNIT_FLAGS_UNIT_TESTS_ONLY} --coverage-text --coverage-clover=build/coverage.xml"  DEPENDENCIES="${COMMON_DEPENDENCIES}" SYMFONY_REQUIRE="5.4.*"
 
         - php: 7.4
           env: STABILITY="stable" DEPENDENCIES="${COMMON_DEPENDENCIES} ${FUNCTIONAL_TESTS_DEPENDENCIES}" SYMFONY_REQUIRE="5.4.*"
@@ -34,11 +36,15 @@ jobs:
           env: STABILITY="stable" DEPENDENCIES="${COMMON_DEPENDENCIES} ${FUNCTIONAL_TESTS_DEPENDENCIES}" SYMFONY_REQUIRE="5.4.*"
         - php: 8.1
           env: STABILITY="stable" DEPENDENCIES="${COMMON_DEPENDENCIES} ${FUNCTIONAL_TESTS_DEPENDENCIES}" SYMFONY_REQUIRE="5.4.*"
+        - php: 8.2
+          env: STABILITY="stable" DEPENDENCIES="${COMMON_DEPENDENCIES} ${FUNCTIONAL_TESTS_DEPENDENCIES}" SYMFONY_REQUIRE="5.4.*"
 
           # Version 6.*
         - php: 8.0
           env: STABILITY="stable" DEPENDENCIES="symfony/http-client:^6 symfony/browser-kit:^6 symfony/css-selector:^6 symfony/framework-bundle:^6 symfony/twig-bundle:^6 symfony/panther:^2" SYMFONY_REQUIRE="6.*"
         - php: 8.1
+          env: STABILITY="stable" DEPENDENCIES="symfony/http-client:^6 symfony/browser-kit:^6 symfony/css-selector:^6 symfony/framework-bundle:^6 symfony/twig-bundle:^6 symfony/panther:^2" SYMFONY_REQUIRE="6.*"
+        - php: 8.2
           env: STABILITY="stable" DEPENDENCIES="symfony/http-client:^6 symfony/browser-kit:^6 symfony/css-selector:^6 symfony/framework-bundle:^6 symfony/twig-bundle:^6 symfony/panther:^2" SYMFONY_REQUIRE="6.*"
 
     allow_failures:
@@ -49,11 +55,15 @@ jobs:
           env: STABILITY="dev" DEPENDENCIES="${COMMON_DEPENDENCIES} ${FUNCTIONAL_TESTS_DEPENDENCIES}" SYMFONY_REQUIRE="5.4.*"
         - php: 8.1
           env: STABILITY="dev" DEPENDENCIES="${COMMON_DEPENDENCIES} ${FUNCTIONAL_TESTS_DEPENDENCIES}" SYMFONY_REQUIRE="5.4.*"
+        - php: 8.2
+          env: STABILITY="dev" DEPENDENCIES="${COMMON_DEPENDENCIES} ${FUNCTIONAL_TESTS_DEPENDENCIES}" SYMFONY_REQUIRE="5.4.*"
 
           # Version 6.*
         - php: 8.0
           env: STABILITY="dev" DEPENDENCIES="symfony/http-client:^6 symfony/browser-kit:^6 symfony/css-selector:^6 symfony/framework-bundle:^6 symfony/twig-bundle:^6 symfony/panther:^2" SYMFONY_REQUIRE="6.*"
         - php: 8.1
+          env: STABILITY="dev" DEPENDENCIES="symfony/http-client:^6 symfony/browser-kit:^6 symfony/css-selector:^6 symfony/framework-bundle:^6 symfony/twig-bundle:^6 symfony/panther:^2" SYMFONY_REQUIRE="6.*"
+        - php: 8.2
           env: STABILITY="dev" DEPENDENCIES="symfony/http-client:^6 symfony/browser-kit:^6 symfony/css-selector:^6 symfony/framework-bundle:^6 symfony/twig-bundle:^6 symfony/panther:^2" SYMFONY_REQUIRE="6.*"
 
 before_install:
