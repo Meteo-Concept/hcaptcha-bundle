@@ -8,7 +8,8 @@ https://www.hcaptcha.com.
 This bundle is tested for Symfony major versions 3, 4, 5 and 6.
 Major version 2 works for Symfony 3 and 4, with PHP 7.2+ ;
 major version 3 for Symfony 5 and 6 with PHP 7.4 or 8.x. The test
-dependencies requirements can be more stringent.
+dependencies requirements can be more stringent. See version 4 for Symfony 6.4
+and 7.x.
 
 Installation
 ----------
@@ -186,4 +187,4 @@ added.
 - In major version 3:
   - support for PHP <7.4 has been dropped
   - support for Symfony <5.3 has been dropped
-  - support for Symfony 6.0 will be added eventually
+  - support for Symfony 6.0 has been added
