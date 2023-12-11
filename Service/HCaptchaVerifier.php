@@ -21,31 +21,31 @@ class HCaptchaVerifier
      * @var ClientInterface A PSR-18 HTTP client service usable to make the
      * API call to hCaptcha.
      */
-    private $client;
+    private ClientInterface $client;
 
     /**
      * @var RequestFactoryInterface A PSR-17 HTTP message factory service usable
      * to construct the HTTP request to the hCaptcha endpoints.
      */
-    private $requestFactory;
+    private RequestFactoryInterface $requestFactory;
 
     /**
      * @var StreamFactoryInterface A PSR-17 stream factory service usable to
      * construct the body of the HTTP request to the hCaptcha endpoint.
      */
-    private $streamFactory;
+    private StreamFactoryInterface $streamFactory;
 
     /**
      * @var string The secret that authenticates the website in the hCaptcha
      * request
      */
-    private $hcaptchaSecret;
+    private string $hcaptchaSecret;
 
     /**
      * @var LoggerInterface|null An optional logger to log the output from
      * the hCaptcha endpoint
      */
-    private $logger;
+    private ?LoggerInterface $logger;
 
     /**
      * @var string The hCaptcha verification endpoint

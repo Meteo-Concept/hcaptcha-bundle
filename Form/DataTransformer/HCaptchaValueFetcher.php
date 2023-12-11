@@ -16,13 +16,13 @@ class HCaptchaValueFetcher implements DataTransformerInterface
      * @var RequestStack The service needed to get access to the POST
      * variables
      */
-    protected $requestStack;
+    protected RequestStack $requestStack;
 
     /**
      * @var string|null The hCaptcha site key configured for the hCaptcha form
      * widget
      */
-    protected $siteKey;
+    protected ?string $siteKey;
 
     /**
      * Constructs an instance of the HCaptchaValueFetcher from injected dependencies

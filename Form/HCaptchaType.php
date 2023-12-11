@@ -24,12 +24,12 @@ class HCaptchaType extends AbstractType
      * @var HCaptchaValueFetcher The data transformer used to get the CAPTCHA
      * response
      */
-    private $valueFetcher;
+    private HCaptchaValueFetcher $valueFetcher;
 
     /**
      * @var string The hCaptcha site key used to generate the hCaptcha widget
      */
-    private $hcaptchaSiteKey;
+    private string $hcaptchaSiteKey;
 
     /**
      * Constructs the form type from injected dependencies

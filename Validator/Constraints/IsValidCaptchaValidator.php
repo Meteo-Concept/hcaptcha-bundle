@@ -36,13 +36,13 @@ class IsValidCaptchaValidator extends ConstraintValidator
      * @var HCaptchaVerifier The service that sends the verification request
      * to the hCaptcha endpoint.
      */
-    private $verifier;
+    private HCaptchaVerifier $verifier;
 
     /**
      * @var string The level of validation, see STRICT_VALIDATION and
      * LAX_VALIDATION above
      */
-    private $validation;
+    private string $validation;
 
     /**
      * Constructs the validator from injected dependencies
