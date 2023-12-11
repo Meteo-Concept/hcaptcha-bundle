@@ -18,17 +18,6 @@ meteo_concept_h_captcha:
         site_key: '10000000-ffff-ffff-ffff-000000000001'
         secret: '0x0000000000000000000000000000000000000000'
 
-framework:
-    secret: test
-    test: true
-    session:
-        storage_factory_id: session.storage.factory.mock_file
-    router:
-        utf8: true
-        resource: '%kernel.project_dir%/Tests/Functional/test_routes.yaml'
-    profiler: { enabled: true, collect: true }
-    http_method_override: false
-
 twig:
     default_path: '%kernel.project_dir%/Tests/Functional/templates'
     form_themes:

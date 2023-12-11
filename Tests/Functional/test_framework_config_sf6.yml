@@ -1,0 +1,18 @@
+framework:
+    secret: test
+    test: true
+    router:
+        utf8: true
+        resource: '%kernel.project_dir%/Tests/Functional/test_routes.yaml'
+    profiler: { enabled: true, collect: true }
+    session:
+        storage_factory_id: session.storage.factory.mock_file
+        cookie_samesite: lax
+        cookie_secure: auto
+        handler_id: null
+    http_method_override: false
+    php_errors:
+      log: null
+    validation:
+      email_validation_mode: html5
+    handle_all_throwables: true

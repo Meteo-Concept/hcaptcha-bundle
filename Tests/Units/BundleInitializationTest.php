@@ -21,7 +21,9 @@ class BundleInitializationTest extends BaseBundleTestCase
     {
         $kernel = $this->createKernel();
         $kernel->addConfigFile(__DIR__.'/test_config.yml');
-        if (\Symfony\Component\HttpKernel\Kernel::MAJOR_VERSION > 4) {
+        if (\Symfony\Component\HttpKernel\Kernel::MAJOR_VERSION > 5) {
+            $kernel->addConfigFile(__DIR__.'/test_framework_config_sf6.yml');
+        } else if (\Symfony\Component\HttpKernel\Kernel::MAJOR_VERSION > 4) {
             $kernel->addConfigFile(__DIR__.'/test_framework_config_sf5.yml');
         } else if (\Symfony\Component\HttpKernel\Kernel::MAJOR_VERSION > 3) {
             $kernel->addConfigFile(__DIR__.'/test_framework_config_sf4.yml');
