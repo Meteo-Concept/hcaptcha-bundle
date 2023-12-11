@@ -10,7 +10,7 @@ on:
     branches: [ "v3" ]
   pull_request:
     branches: [ "v3" ]
-    
+
 env:
   PHPUNIT_FLAGS: "-v --testdox"
   SYMFONY_PHPUNIT_DIR: "$HOME/symfony-bridge/.phpunit"
@@ -34,7 +34,7 @@ jobs:
           - symfony: '5.4.*'
             dependencies: "symfony/browser-kit:^5 symfony/css-selector:^5 symfony/framework-bundle:^5 symfony/twig-bundle:^5 symfony/panther:^1"
           - symfony: '6.*'
-            dependencies: "symfony/http-client:^6 symfony/browser-kit:^6 symfony/css-selector:^6 symfony/framework-bundle:^6 symfony/twig-bundle:^6 symfony/panther:^2" 
+            dependencies: "symfony/http-client:^6 symfony/browser-kit:^6 symfony/css-selector:^6 symfony/framework-bundle:^6 symfony/twig-bundle:^6 symfony/panther:^2"
         exclude:
           - php: '7.4'
             symfony: '6.*'
@@ -59,7 +59,7 @@ jobs:
     - name: Select the correct Symfony distribution
       env:
         SYMFONY_REQUIRE: ${{ matrix.symfony }}
-      run: composer config --no-interaction --no-plugins extra.symfony.require ${{ matrix.symfony }} 
+      run: composer config --no-interaction --no-plugins extra.symfony.require ${{ matrix.symfony }}
     - name: Cache Composer packages
       id: composer-cache
       uses: actions/cache@v3
@@ -82,5 +82,5 @@ jobs:
       env:
         SYMFONY_REQUIRE: ${{ matrix.symfony }}
       run: composer validate --strict --no-check-lock
-    - name: Execute tests (Unit and Feature tests) via PHPUnit 
+    - name: Execute tests (Unit and Feature tests) via PHPUnit
       run: PATH="$PATH:$PWD/geckodriver" ./vendor/bin/simple-phpunit ${{ env.PHPUNIT_FLAGS }}
