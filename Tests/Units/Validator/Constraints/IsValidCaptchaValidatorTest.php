@@ -47,8 +47,7 @@ class IsValidCaptchaValidatorTest extends TestCase
 
         $this->violationBuilder
             ->expects($this->once())
-            ->method('addViolation')
-            ->willReturn(null);
+            ->method('addViolation');
 
         $this->validator->validate($value, $this->constraint);
     }
@@ -71,8 +70,7 @@ class IsValidCaptchaValidatorTest extends TestCase
 
         $this->violationBuilder
             ->expects($this->once())
-            ->method('addViolation')
-            ->willReturn(null);
+            ->method('addViolation');
 
         $this->validator->validate($value, $this->constraint);
     }
@@ -95,8 +93,7 @@ class IsValidCaptchaValidatorTest extends TestCase
 
         $this->violationBuilder
             ->expects($this->once())
-            ->method('addViolation')
-            ->willReturn(null);
+            ->method('addViolation');
 
         $this->validator->validate($value, $this->constraint);
     }

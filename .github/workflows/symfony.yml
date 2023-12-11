@@ -27,17 +27,25 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ ubuntu-latest ]
-        php: [ '7.4', '8.0', '8.1', '8.2' ]
-        symfony: [ '5.4.*', '6.*' ]
+        php: [ '8.0', '8.1', '8.2', '8.3' ]
+        symfony: [ '6.4.*', '7.*' ]
         stability: [ stable ]
         include:
           - symfony: '5.4.*'
             dependencies: "symfony/browser-kit:^5 symfony/css-selector:^5 symfony/framework-bundle:^5 symfony/twig-bundle:^5 symfony/panther:^1"
           - symfony: '6.*'
             dependencies: "symfony/http-client:^6 symfony/browser-kit:^6 symfony/css-selector:^6 symfony/framework-bundle:^6 symfony/twig-bundle:^6 symfony/panther:^2"
+          - symfony: '7.*'
+            dependencies: "symfony/http-client:^7 symfony/browser-kit:^7 symfony/css-selector:^7 symfony/framework-bundle:^7 symfony/twig-bundle:^7 symfony/panther:^2"
         exclude:
           - php: '7.4'
             symfony: '6.*'
+          - php: '7.4'
+            symfony: '7.*'
+          - php: '8.0'
+            symfony: '7.*'
+          - php: '8.1'
+            symfony: '7.*'
     steps:
     #  To automatically get bug fixes and new Php versions for shivammathur/setup-php,
     # change this to (see https://github.com/shivammathur/setup-php#bookmark-versioning):
@@ -76,11 +84,9 @@ jobs:
       run: composer update --prefer-dist --no-interaction
     - name: Install Extra Dependencies
       run: composer require --no-interaction --prefer-dist --with-all-dependencies ${{ matrix.dependencies }}
-    - name: Setup PHPUnit
-      run: ./vendor/bin/simple-phpunit install
     - name: Validate the whole installation
       env:
         SYMFONY_REQUIRE: ${{ matrix.symfony }}
       run: composer validate --strict --no-check-lock
     - name: Execute tests (Unit and Feature tests) via PHPUnit
-      run: PATH="$PATH:$PWD/geckodriver" ./vendor/bin/simple-phpunit ${{ env.PHPUNIT_FLAGS }}
+      run: PATH="$PATH:$PWD/geckodriver" ./vendor/phpunit/phpunit/phpunit ${{ env.PHPUNIT_FLAGS }}

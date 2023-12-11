@@ -55,7 +55,7 @@ class HCaptchaValueFetcher implements DataTransformerInterface
      * @inheritdoc
      * @return mixed
      */
-    public function transform($value)
+    public function transform(mixed $value): mixed
     {
         /*
          * There's nothing to transform, CAPTCHAs are not persisted and it's not
@@ -69,7 +69,7 @@ class HCaptchaValueFetcher implements DataTransformerInterface
      * @inheritdoc
      * @return mixed
      */
-    public function reverseTransform($value)
+    public function reverseTransform(mixed $value): mixed
     {
         /*
          * We need to get the data directly from the request since hCaptcha uses

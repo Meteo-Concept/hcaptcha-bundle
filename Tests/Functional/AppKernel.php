@@ -23,7 +23,9 @@ class AppKernel extends Kernel
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(__DIR__.'/test_config_functional.yml');
-        if (\Symfony\Component\HttpKernel\Kernel::MAJOR_VERSION > 5) {
+        if (\Symfony\Component\HttpKernel\Kernel::MAJOR_VERSION >= 6 &&
+            \Symfony\Component\HttpKernel\Kernel::MINOR_VERSION >= 4
+        ) {
             $loader->load(__DIR__.'/test_framework_config_sf6.yml');
         } else {
             $loader->load(__DIR__.'/test_framework_config.yml');
