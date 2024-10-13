@@ -4,7 +4,7 @@
     "type": "symfony-bundle",
     "require": {
         "php": "^7.4|^8.0",
-        "psr/http-client": "^1.0",
+        "psr/http-client": "^1.0|^2.0",
         "psr/http-message": "^1.0",
         "psr/http-client-implementation": "^1.0",
         "psr/http-factory-implementation": "^1.0",
