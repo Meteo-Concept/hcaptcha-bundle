@@ -3,6 +3,7 @@
 namespace MeteoConcept\HCaptchaBundle\Tests\Units\Form\DataTransformer;
 
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -18,6 +19,10 @@ class HCaptchaValueFetcherTest extends TestCase
     private $noCaptchaRequestStack;
 
     private $noCaptchaRequest;
+
+    private $multipleCaptchaRequestStack;
+
+    private $multipleCaptchaRequest;
 
     public function setUp(): void
     {
@@ -48,6 +53,20 @@ class HCaptchaValueFetcherTest extends TestCase
         $this->noCaptchaRequestStack->expects($this->any())
                            ->method('getMainRequest')
                            ->willReturn($this->noCaptchaRequest);
+
+        $this->multipleCaptchaRequestStack = $this->createMock(RequestStack::class);
+        $this->multipleCaptchaRequest = Request::create(
+            '/some_route',
+            'POST',
+            [ 'h-captcha-response' => ['some_response1', 'some_response2'] ], // request parameters
+            [], // cookies
+            [], // files
+            [ 'REMOTE_ADDR' => '10.0.1.1' ], // server
+            ''
+        );
+        $this->multipleCaptchaRequestStack->expects($this->any())
+                           ->method('getMainRequest')
+                           ->willReturn($this->multipleCaptchaRequest);
     }
 
     public function test_The_value_fetcher_builds_the_correct_form_value_from_the_request()
@@ -74,5 +93,14 @@ class HCaptchaValueFetcherTest extends TestCase
 
         $value = $valueFetcher->transform(null);
         $this->assertEquals(null, $value);
+    }
+
+    public function test_The_value_fetcher_throws_a_TransformationFailedException_if_the_request_contains_an_array_of_captchas()
+    {
+        $valueFetcher = new HCaptchaValueFetcher($this->multipleCaptchaRequestStack);
+        $valueFetcher->setSiteKey('some_site_key');
+
+        $this->expectException(TransformationFailedException::class);
+        $value = $valueFetcher->reverseTransform(null);
     }
 }
