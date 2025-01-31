@@ -23,7 +23,7 @@ class HCaptchaTypeTest extends TypeTestCase
         parent::setUp();
     }
 
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         // create a type instance with the mocked dependencies
         $type = new HCaptchaType($this->valueFetcher, self::SITE_KEY);
