@@ -40,7 +40,7 @@ class HCaptchaType extends AbstractType
      * If the site key is not set globally by configuration, then it must be
      * passed as an option to the form type.
      */
-    public function __construct(HCaptchaValueFetcher $hcaptchaValueFetcher, string $hcaptchaSiteKey = null)
+    public function __construct(HCaptchaValueFetcher $hcaptchaValueFetcher, ?string $hcaptchaSiteKey = null)
     {
         $this->valueFetcher = $hcaptchaValueFetcher;
         $this->hcaptchaSiteKey = $hcaptchaSiteKey;
