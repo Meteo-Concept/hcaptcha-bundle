@@ -68,7 +68,7 @@ class HCaptchaVerifier
      */
     public function __construct(ClientInterface $client,
         RequestFactoryInterface $requestFactory, StreamFactoryInterface $streamFactory,
-        string $hcaptchaSecret, LoggerInterface $logger = null)
+        string $hcaptchaSecret, ?LoggerInterface $logger = null)
     {
         $this->client = $client;
         $this->requestFactory = $requestFactory;
@@ -93,7 +93,7 @@ class HCaptchaVerifier
      * @throws BadAnswerFromHCaptchaException Thrown if the HCaptcha API has
      * failed to answer in due time or if the answer is out of specification.
      */
-    public function verify(HCaptchaResponse $value, string &$output = null): bool
+    public function verify(HCaptchaResponse $value, ?string &$output = null): bool
     {
         // Make the validation request to hCaptcha
         $stream = $this->streamFactory->createStream(
