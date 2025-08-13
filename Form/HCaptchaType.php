@@ -95,7 +95,7 @@ class HCaptchaType extends AbstractType
             'empty_data' => null,
             'mapped' => false,
             'constraints' => [
-                new NotBlank(["message" => "The CAPTCHA is required."]),
+                new NotBlank(message: "The CAPTCHA is required."),
                 new IsValidCaptcha(),
             ],
             'invalid_message' => "Invalid CAPTCHA",
