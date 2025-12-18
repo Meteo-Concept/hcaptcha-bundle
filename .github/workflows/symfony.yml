@@ -31,16 +31,16 @@ jobs:
       matrix:
         operating-system: [ ubuntu-latest ]
         php: [ '8.1', '8.2', '8.3', '8.4' ]
-        symfony: [ '6.4', '7.3' ]
+        symfony: [ '6.4', '7.4' ]
         stability: [ stable ]
         include:
           - symfony: '6.4'
             dependencies: "symfony/http-client:^6 symfony/browser-kit:^6 symfony/css-selector:^6 symfony/framework-bundle:^6 symfony/twig-bundle:^6 symfony/panther:^2"
-          - symfony: '7.3'
+          - symfony: '7.4'
             dependencies: "symfony/http-client:^7 symfony/browser-kit:^7 symfony/css-selector:^7 symfony/framework-bundle:^7 symfony/twig-bundle:^7 symfony/panther:^2"
         exclude:
           - php: '8.1'
-            symfony: '7.3'
+            symfony: '7.4'
     steps:
     #  To automatically get bug fixes and new Php versions for shivammathur/setup-php,
     # change this to (see https://github.com/shivammathur/setup-php#bookmark-versioning):
@@ -72,13 +72,13 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-php-
     - name: Install symfony/flex separately first
-      run: composer global require symfony/flex --prefer-dist --no-interaction
+      run: composer global require symfony/flex --prefer-dist --no-interaction --no-audit
     - name: Install Project Dependencies
       env:
         SYMFONY_REQUIRE: ${{ matrix.symfony }}
       run: composer update --prefer-dist --no-interaction
     - name: Install Extra Dependencies
-      run: composer require --no-interaction --prefer-dist --with-all-dependencies ${{ matrix.dependencies }}
+      run: composer require --no-interaction --no-audit --prefer-dist --with-all-dependencies ${{ matrix.dependencies }}
     - name: Validate the whole installation
       env:
         SYMFONY_REQUIRE: ${{ matrix.symfony }}
