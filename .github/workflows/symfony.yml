@@ -57,6 +57,8 @@ jobs:
       run: tar -xzf geckodriver-v0.29.0-linux64.tar.gz -C geckodriver
     - name: Set minimum stability
       run: composer config minimum-stability ${{ matrix.stability }}
+    - name: Remove audit of dependencies to be able to run tests on deprecated combinations
+      run: composer config audit.block-insecure false
     - name: Allow symfony/flex to do whatever pleases it
       run: composer global config --no-interaction --no-plugins allow-plugins.symfony/flex true
     - name: Select the correct Symfony distribution
