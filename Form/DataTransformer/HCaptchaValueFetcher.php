@@ -4,6 +4,7 @@ namespace MeteoConcept\HCaptchaBundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 use MeteoConcept\HCaptchaBundle\Form\HCaptchaResponse;
@@ -79,7 +80,7 @@ class HCaptchaValueFetcher implements DataTransformerInterface
              * variable that would let the Symfony Form component find it on its own.
              */
             $masterRequest = $this->requestStack->getMainRequest();
-            $response      = $masterRequest->get("h-captcha-response");
+            $response      = $masterRequest->request->get("h-captcha-response");
 
             // Can happen if the Captcha JS has failed to load for instance
             if (null === $response)
@@ -88,7 +89,7 @@ class HCaptchaValueFetcher implements DataTransformerInterface
             $remoteIp = $masterRequest->getClientIp();
 
             return new HCaptchaResponse($response, $remoteIp, $this->siteKey);
-        } catch (\TypeError $error) {
+        } catch (\InvalidArgumentException|BadRequestException|\TypeError $error) {
             // can happen if $response is not a string but an array for instance
             throw new TransformationFailedException("Unable to extract the HCaptcha value from the query");
         }
